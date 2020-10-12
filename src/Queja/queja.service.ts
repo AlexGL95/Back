@@ -13,7 +13,6 @@ export class QuejaService {
         let doc = new PDFDocument;
         doc.pipe(fs.createWriteStream('./output.pdf'));
         doc.text('Hello ', {
-            //here it is, 
             lineBreak : true,
             lineGap: 30,
         }).font('Times-Roman').text('World!');
