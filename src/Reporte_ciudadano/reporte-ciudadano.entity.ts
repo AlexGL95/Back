@@ -1,9 +1,9 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Categoria } from 'src/Categoria/categoria.entity';
-import { AreaQuejas } from 'src/Categoria/Areas/areaQuejas.entity';
+import { AreaRC } from 'src/Categoria/Areas/areaRC.entity';
 
 @Entity()
-export class Queja extends BaseEntity{
+export class reporteCiudadano extends BaseEntity{
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -26,14 +26,14 @@ export class Queja extends BaseEntity{
     @ManyToOne(type => Categoria, categoria => categoria.id)
     categoria: Categoria;
 
-    @ManyToOne(type => AreaQuejas, areaQuejas => areaQuejas.id)
-    area: AreaQuejas;
+    @ManyToOne(type => AreaRC, areaRC => areaRC.id)
+    area: AreaRC;
 
     @Column()
-    queja: string;
+    reporte: string;
 
     @Column()
-    evidencia: string;
+    anexos: string;
 
     @Column()
     fecha: string;
