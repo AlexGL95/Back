@@ -1,4 +1,45 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { createusuariodto } from './Dto/usuario.dto';
+import { Usuario } from './usuario.entity';
 
 @Injectable()
-export class UsuarioService {}
+export class UsuarioService {
+    constructor(
+        @InjectRepository(Usuario)
+        private userreposotorty: Repository<Usuario>,
+    ){}
+
+    async CrearUsuario(createusuario:createusuariodto){
+        const user = await this.userreposotorty.findOne({where:{correo: `${createusuario.correo}` }});
+        let newuser = new Usuario;
+        const bcrypt = require("bcrypt");
+        console.log(user);
+        if (user) {
+            console.log('Error sa');
+            return Error;
+        } else {
+            newuser.id = 0;
+            newuser.nombre = createusuario.nombre;
+            newuser.correo =  createusuario.correo;
+            newuser.salt = await bcrypt.genSalt();
+            newuser.pass = await bcrypt.hash(createusuario.pass, newuser.salt);
+            newuser.token = '-';
+            newuser.super = true;
+            newuser.activo = true;
+            console.log(newuser);
+            return await this.userreposotorty.save(newuser);
+        }
+    }
+
+    async updateusuario(id:number, createusuariodto: createusuariodto){
+        const user = await this.userreposotorty.findOne({where:{id: `${id}` }});
+        const bcrypt = require ("bcrypt");
+        user.nombre = createusuariodto.nombre;
+        user.correo = createusuariodto.correo; 
+        user.salt = await bcrypt.genSalt();
+        user.pass = await bcrypt.hash(createusuariodto.pass, user.salt);
+        return await this.userreposotorty.save(user);
+    }
+}
