@@ -3,13 +3,13 @@ import { MulterModule } from '@nestjs/platform-express';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AfiliacionModule } from './afiliacion/afiliacion.module';
-import { AuthModule } from './auth/auth.module';
-import { CategoriaModule } from './categoria/categoria.module';
-import { EvidenciaModule } from './evidencia/evidencia.module';
-import { PropuestaModule } from './propuesta/propuesta.module';
-import { QuejaModule } from './queja/queja.module';
-import { UsuarioModule } from './usuario/usuario.module';
+import { AfiliacionModule } from './Afiliacion/afiliacion.module';
+import { AuthModule } from './Auth/auth.module';
+import { CategoriaModule } from './Categoria/categoria.module';
+import { EvidenciaModule } from './Evidencia/evidencia.module';
+import { PropuestaModule } from './Propuesta/propuesta.module';
+import { QuejaModule } from './Queja/queja.module';
+import { UsuarioModule } from './Usuario/usuario.module';
 import { ReporteCiudadanoModule } from './Reporte_ciudadano/reporte-ciudadano.module';
 
 @Module({
@@ -19,7 +19,7 @@ import { ReporteCiudadanoModule } from './Reporte_ciudadano/reporte-ciudadano.mo
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: '',
+      password: 'Konjikinogashbell25()',
       database: 'escuchav1',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
@@ -32,11 +32,11 @@ import { ReporteCiudadanoModule } from './Reporte_ciudadano/reporte-ciudadano.mo
     PropuestaModule,
     QuejaModule,
     UsuarioModule,
-    ReporteCiudadanoModule
-  ],
+    ReporteCiudadanoModule,
     MulterModule.register({
       dest: '/files',
-    })],
+    })
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

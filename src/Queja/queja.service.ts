@@ -18,4 +18,8 @@ export class QuejaService {
         }).font('Times-Roman').text('World!');
         doc.end();
     }
+
+    pathFile(files: File){
+        console.log(files[0].path);
+    }
 }

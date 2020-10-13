@@ -1,4 +1,4 @@
-import { Controller, Get, Res, Post, UseInterceptors, UploadedFiles } from '@nestjs/common';
+import { Controller, Get, Res, Post, UseInterceptors, UploadedFiles, HttpStatus } from '@nestjs/common';
 import { QuejaService } from './queja.service';
 import { diskStorage } from 'multer'
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
@@ -17,9 +17,10 @@ export class QuejaController {
     @UseInterceptors(AnyFilesInterceptor({
         storage: diskStorage({
           destination: './files',
-        })
+        }),
+        limits: {fileSize: 30000}
       }))
     uploadFile(@UploadedFiles() files) {
-    console.log(files);
-}
+      return this.quejaService.pathFile(files);
+    }
 }
