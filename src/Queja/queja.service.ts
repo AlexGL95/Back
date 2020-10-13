@@ -14,7 +14,6 @@ export class QuejaService {
 
     // Creacion de quejas
     async createqueja(newqueja: createquejadto){
-        console.log('Se quejo');
         let queja = new Queja;
         queja.id=0;
         queja.nombre = newqueja.nombre;
@@ -28,8 +27,6 @@ export class QuejaService {
         queja.folio=':D';
         queja.activa = true;
         queja.afiliacion = false;
-        console.log(queja);
         return await this.quejarepository.save(queja);
-
     }
 }
