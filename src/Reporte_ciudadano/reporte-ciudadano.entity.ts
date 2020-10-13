@@ -41,4 +41,7 @@ export class reporteCiudadano extends BaseEntity{
     @Column()
     activa: boolean;
 
+    @Column()
+    afiliacion: boolean;
+
 }
