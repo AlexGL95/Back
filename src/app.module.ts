@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AfiliacionModule } from './afiliacion/afiliacion.module';
 import { AuthModule } from './auth/auth.module';
 import { CategoriaModule } from './categoria/categoria.module';
 import { EvidenciaModule } from './evidencia/evidencia.module';
@@ -24,7 +23,6 @@ import { ReporteCiudadanoModule } from './Reporte_ciudadano/reporte-ciudadano.mo
       synchronize: true,
       autoLoadEntities: true,
     }),
-    AfiliacionModule,
     AuthModule,
     CategoriaModule,
     EvidenciaModule,
