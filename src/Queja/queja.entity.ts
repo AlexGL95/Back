@@ -37,6 +37,9 @@ export class Queja extends BaseEntity{
 
     @Column()
     fecha: string;
+    
+    @Column()
+    folio: string;
 
     @Column()
     activa: boolean;

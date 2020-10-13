@@ -1,4 +1,13 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
+import { ReporteCiudadanoDTO } from './dto/reporte-ciudadano.dto';
 
-@Controller('reporte-ciudadano')
-export class ReporteCiudadanoController {}
+@Controller('rc')
+export class ReporteCiudadanoController {
+
+    //Endpoint guardarRC.
+    @Post()
+    guardarRC( @Body() rcDto: ReporteCiudadanoDTO ): string  {
+        return 'guardarRC escuchando';
+    }
+
+}
