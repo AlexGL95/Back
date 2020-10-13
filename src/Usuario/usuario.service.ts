@@ -42,4 +42,15 @@ export class UsuarioService {
         user.pass = await bcrypt.hash(createusuariodto.pass, user.salt);
         return await this.userreposotorty.save(user);
     }
+
+    async deleteusuario( id:number ){
+        const user = await this.userreposotorty.findOne({where:{id: `${id}` }});
+        if (user) {
+            this.userreposotorty.delete(id);
+            return {Mensaje:'Eliminacion Exitosa'};
+        } else {
+            return Error;
+        }
+
+    }
 }
