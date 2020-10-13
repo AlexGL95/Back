@@ -41,4 +41,7 @@ export class Queja extends BaseEntity{
     @Column()
     activa: boolean;
 
+    @Column()
+    afiliacion: boolean;
+
 }

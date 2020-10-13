@@ -44,4 +44,7 @@ export class Propuesta extends BaseEntity{
     @Column()
     activa: boolean;
 
+    @Column()
+    afiliacion: boolean;
+
 }
