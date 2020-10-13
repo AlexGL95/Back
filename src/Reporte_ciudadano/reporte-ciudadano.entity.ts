@@ -39,6 +39,12 @@ export class reporteCiudadano extends BaseEntity{
     fecha: string;
 
     @Column()
+    folio: string;
+
+    @Column()
     activa: boolean;
+
+    @Column()
+    afiliacion: boolean;
 
 }

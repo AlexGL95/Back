@@ -42,6 +42,12 @@ export class Propuesta extends BaseEntity{
     fecha: string;
 
     @Column()
+    folio: string;
+
+    @Column()
     activa: boolean;
+
+    @Column()
+    afiliacion: boolean;
 
 }

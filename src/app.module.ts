@@ -25,7 +25,6 @@ import { ReporteCiudadanoModule } from './Reporte_ciudadano/reporte-ciudadano.mo
       synchronize: true,
       autoLoadEntities: true,
     }),
-    AfiliacionModule,
     AuthModule,
     CategoriaModule,
     EvidenciaModule,
