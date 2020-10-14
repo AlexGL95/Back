@@ -10,6 +10,7 @@ import { PropuestaModule } from './Propuesta/propuesta.module';
 import { QuejaModule } from './Queja/queja.module';
 import { UsuarioModule } from './Usuario/usuario.module';
 import { ReporteCiudadanoModule } from './Reporte_ciudadano/reporte-ciudadano.module';
+import { ArchivosModule } from './archivos/archivos.module';
 import { ArchivoService } from './archivo/archivo.service';
 
 @Module({
@@ -34,7 +35,8 @@ import { ArchivoService } from './archivo/archivo.service';
     ReporteCiudadanoModule,
     MulterModule.register({
       dest: '/files',
-    })
+    }),
+    ArchivosModule
   ],
   controllers: [AppController],
   providers: [AppService, ArchivoService],

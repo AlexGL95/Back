@@ -33,4 +33,10 @@ export class ReporteCiudadanoController {
         return this.reporteCiudadanoService.obtenerRC( categoria, area, pagina);
     }
 
+    //Endpoint obtenerRcGraph.
+    @Get('graph/:categoria/:areaRC/:fechaIni/:fechaFin')
+    obtenerRcGraph( @Param('categoria') categoria: number, @Param('areaRC') area: number, @Param('fechaIni') fechaIni: string, @Param('fechaFin') fechaFin: string ): Promise<any[]> {
+        return this.reporteCiudadanoService.obtenerRcGraph(categoria, area, fechaIni, fechaFin);
+    }
+
 }

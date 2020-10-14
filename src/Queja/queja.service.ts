@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Queja } from 'src/Queja/queja.entity';
+var moment = require('moment');
+import { Moment } from "moment";
 import { Repository } from 'typeorm';
 import { createquejadto } from './Dto/queja.dto';
 import { CategoriaService } from 'src/Categoria/categoria.service';
@@ -97,6 +99,42 @@ export class QuejaService {
     pathFile(files: File){
         console.log(files[0]);
         this.path = files[0].path;
+    }
+    async obtenerQuejaGraph( categoria: number, area: number, fecha1: string, fecha2: string): Promise<any[]> {
+        let fechaIni: Moment = moment(fecha1, "MMM Do YY");
+        let fecha: Moment = moment(fecha1, "MMM Do YY").subtract(1, 'days');
+        let fechaFin: Moment = moment(fecha2, "MMM Do YY");
+        let diferencia = fechaFin.diff(fechaIni, 'days');
+        let response: any[] = [];
+        let arrTemp: any[] = [];
+        for (let m = 0; m <= diferencia; m++) {
+            arrTemp = [];
+            fecha.add(1, 'days');
+            arrTemp.push(fecha.format("MMM Do YY"));
+            let rcArr: Queja[];
+            // Si no tiene categoria ni area = retorna cualquier paginacion disponible.
+            if( (categoria == 0) && (area == 0) ) {
+                rcArr = await this.quejaRepository.find( { where: { fecha: fecha.format("MMM Do YY") } } );
+            }
+            // Si no tiene area pero si categoria = retorna la paginacion correspondiente a la categoria.
+            else if( (categoria != 0) && (area == 0) ) {
+                const categoriasArr = await this.categoriaService.obtenerCategoria();
+                rcArr = await this.quejaRepository.find( { where: { fecha: fecha.format("MMM Do YY"), categoria: categoriasArr[categoria - 1] } } );
+            }
+            // Si no tiene area pero si categoria = retorna la paginacion correspondiente a la categoria.
+            else if( (categoria != 0) && (area != 0) ) {
+                const categoriasArr = await this.categoriaService.obtenerCategoria();
+                const areasArr = await this.categoriaService.obtenerAreasRC();
+                rcArr = await this.quejaRepository.find( { where: { fecha: fecha.format("MMM Do YY"), categoria: categoriasArr[categoria - 1], area: areasArr[area - 1] } } );
+            }
+            else {
+                console.log('Paso error');
+                console.log(categoria, area, fecha1, fecha2);
+            }
+            arrTemp.push(rcArr.length);
+            response.push(arrTemp);
+        }
+        return response;
     }
 
 }
