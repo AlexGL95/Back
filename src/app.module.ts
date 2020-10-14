@@ -18,7 +18,7 @@ import { ReporteCiudadanoModule } from './Reporte_ciudadano/reporte-ciudadano.mo
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'Konjikinogashbell25()',
+      password: '',
       database: 'escuchav1',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
