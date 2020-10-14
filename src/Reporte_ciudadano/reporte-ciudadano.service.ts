@@ -6,19 +6,23 @@ import { reporteCiudadano } from './reporte-ciudadano.entity';
 import { ReporteCiudadanoDTO } from './dto/reporte-ciudadano.dto';
 import { ReporteCiudadanoInterface } from "./interface/ReporteCiudadanoInterface.interface";
 import { CategoriaService } from 'src/Categoria/categoria.service';
+import { ArchivoService } from 'src/archivo/archivo.service';
 
 
 @Injectable()
 export class ReporteCiudadanoService {
 
+    path: string = '';
+
     constructor(
+        private categoriaService: CategoriaService,
+        private archivosService: ArchivoService,
         @InjectRepository(reporteCiudadano)
         private rcRepository: Repository<reporteCiudadano>,
-        private categoriaService: CategoriaService
     ) {}
 
     // Metodo para generar un nuevo reporte ciudadadano y guardarlo en DB.
-    async guardarRC( body: ReporteCiudadanoDTO ): Promise<string> {
+    async guardarRC( body: ReporteCiudadanoDTO ): Promise<reporteCiudadano> {
 
         // Folio.
         let folio = 'folio';
@@ -35,7 +39,7 @@ export class ReporteCiudadanoService {
             categoria: categoriasArr[body.categoria - 1], //Menos 1 porque el categoriasArr abarca el 0.
             area: areasArr[body.area - 1],
             reporte: body.reporte,
-            anexos: "",
+            anexos: this.path,
             fecha: moment().format("MMM Do YY"),
             folio: folio,
             activa: false,
@@ -44,9 +48,12 @@ export class ReporteCiudadanoService {
         if (body.nombre) { nuevoRC.nombre = body.nombre; }
         if (body.telefono) { nuevoRC.telefono = body.telefono; }
         if (body.correo) { nuevoRC.correo = body.correo; }
+        // Genera PDF
+        this.archivosService.generarPDFRC(nuevoRC.nombre, nuevoRC.telefono, nuevoRC.correo, nuevoRC.codigoPostal, nuevoRC.colonia, nuevoRC.reporte, nuevoRC.categoria.tipo, nuevoRC.area.area, nuevoRC.anexos)
+        this.path = '';
         // Guardado en DB.
-        await this.rcRepository.save(nuevoRC);
-        return folio;
+        return await this.rcRepository.save(nuevoRC);
+        //return folio;
 
     }
 
@@ -87,6 +94,11 @@ export class ReporteCiudadanoService {
             nSig: nSig
         }
         return paginacion;
+    }
+
+    pathFile(files: File){
+        console.log(files[0]);
+        this.path = files[0].path;
     }
 
 }

@@ -1,7 +1,9 @@
-import { Controller, Post, Body, Get, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, UseInterceptors, UploadedFiles } from '@nestjs/common';
 import { ReporteCiudadanoDTO } from './dto/reporte-ciudadano.dto';
 import { ReporteCiudadanoService } from './reporte-ciudadano.service';
 import { reporteCiudadano } from './reporte-ciudadano.entity';
+import { AnyFilesInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer'
 
 @Controller('rc')
 export class ReporteCiudadanoController {
@@ -10,8 +12,19 @@ export class ReporteCiudadanoController {
 
     // Endpoint guardarRC.
     @Post()
-    guardarRC( @Body() body: ReporteCiudadanoDTO ): Promise<string>  {
+    guardarRC( @Body() body: ReporteCiudadanoDTO ): Promise<reporteCiudadano>  {
         return this.reporteCiudadanoService.guardarRC(body);
+    }
+
+    @Post('/filesRC')
+    @UseInterceptors(AnyFilesInterceptor({
+        storage: diskStorage({
+          destination: './files/reportes',
+        }),
+        limits: {fileSize: 300000}
+      }))
+    uploadFile(@UploadedFiles() files) {
+      return this.reporteCiudadanoService.pathFile(files);
     }
 
     //Endpoint obtenerRC.

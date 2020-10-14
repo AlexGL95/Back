@@ -10,6 +10,7 @@ import { PropuestaModule } from './Propuesta/propuesta.module';
 import { QuejaModule } from './Queja/queja.module';
 import { UsuarioModule } from './Usuario/usuario.module';
 import { ReporteCiudadanoModule } from './Reporte_ciudadano/reporte-ciudadano.module';
+import { ArchivoService } from './archivo/archivo.service';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { ReporteCiudadanoModule } from './Reporte_ciudadano/reporte-ciudadano.mo
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: '',
+      password: 'Konjikinogashbell25()',
       database: 'escuchav1',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
@@ -36,6 +37,6 @@ import { ReporteCiudadanoModule } from './Reporte_ciudadano/reporte-ciudadano.mo
     })
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ArchivoService],
 })
 export class AppModule {}

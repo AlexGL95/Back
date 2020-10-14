@@ -12,6 +12,24 @@ export class QuejaController {
         private quejaService: QuejaService
     ){}
 
+    @Post()
+    guardarQueja(@Body() quejadto: createquejadto, @Res() response){
+        this.quejaService.createqueja(quejadto).then(quejam => {
+            response.status(HttpStatus.CREATED).json(quejam);
+        });
+    }
+
+    @Post('/filesQ')
+    @UseInterceptors(AnyFilesInterceptor({
+        storage: diskStorage({
+          destination: './files/quejas',
+        }),
+        limits: {fileSize: 300000}
+      }))
+    uploadFile(@UploadedFiles() files) {
+      return this.quejaService.pathFile(files);
+    }
+
     //Endpoint obtenerRC.
     @Get(':categoria/:areaQ/:pagina')
     obtenerQueja( @Param('categoria') categoria: number, @Param('areaQ') area: number, @Param('pagina') pagina: number ): Promise<{ rcArr: Queja[], nSig: number }> {
