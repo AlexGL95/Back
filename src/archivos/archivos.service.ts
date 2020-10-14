@@ -24,4 +24,9 @@ export class ArchivosService {
         }
     }
 
+    // Metodo para enviar un correo al emisor.
+    enviarCorreo( nombre: string, correo: string, evidencia: string ) {
+
+    }
+
 }
