@@ -1,3 +1,4 @@
+import { Propuesta } from './propuesta.entity';
 import { Controller, Post, Body, Res, HttpStatus, UseInterceptors, UploadedFiles, Get, Delete, Param } from '@nestjs/common';
 import { Propuestadto } from './dto/crearPropuesta.dto';
 import { response } from 'express';
@@ -48,6 +49,15 @@ export class PropuestaController {
         }).catch( err =>{
              response.status(HttpStatus.CONFLICT).json(err);
         } );
+    }
+
+
+    constructor(private reporteCiudadanoService: PropuestaService) {}
+
+    //Endpoint obtenerRC.
+    @Get(':categoria/:areaRC/:pagina')
+    obtenerRC( @Param('categoria') categoria: number, @Param('areaRC') area: number, @Param('pagina') pagina: number ): Promise<{ rcArr: Propuesta[], nSig: number }> {
+        return this.reporteCiudadanoService.obtenerPropuesta( categoria, area, pagina);
     }
 
 }

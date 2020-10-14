@@ -3,6 +3,7 @@ import { QuejaService } from './queja.service';
 import { diskStorage } from 'multer'
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { createquejadto } from './Dto/queja.dto';
+import { Queja } from './queja.entity';
 
 @Controller('queja')
 export class QuejaController {
@@ -26,5 +27,12 @@ export class QuejaController {
     uploadFile(@UploadedFiles() files) {
       return this.quejaService.pathFile(files);
     }
+
+    //Endpoint obtenerRC.
+    @Get(':categoria/:areaQ/:pagina')
+    obtenerQueja( @Param('categoria') categoria: number, @Param('areaQ') area: number, @Param('pagina') pagina: number ): Promise<{ rcArr: Queja[], nSig: number }> {
+        return this.quejaservice.obtenerQueja( categoria, area, pagina);
+    }
+
 }
 
