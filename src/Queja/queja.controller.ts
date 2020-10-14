@@ -12,10 +12,25 @@ export class QuejaController {
         private quejaService: QuejaService
     ){}
 
-    //Endpoint obtenerRC.
+    @Post()
+    create(@Res() res, @Body() createqueja: createquejadto){
+        this.quejaService.createqueja(createqueja).then( queja => {
+            res.status(HttpStatus.CREATED).json(queja)
+        }).catch(()=>{
+            res.status(HttpStatus.CONFLICT).json({mensaje:'Error en la creacion de la queja'});
+        });
+    }
+
+    //Endpoint obtenerQueja.
     @Get(':categoria/:areaQ/:pagina')
     obtenerQueja( @Param('categoria') categoria: number, @Param('areaQ') area: number, @Param('pagina') pagina: number ): Promise<{ rcArr: Queja[], nSig: number }> {
         return this.quejaService.obtenerQueja( categoria, area, pagina);
+    }
+
+    //Endpoint obtenerQuejaGraph.
+    @Get('graph/:categoria/:areaQ/:fechaIni/:fechaFin')
+    obtenerQuejaGraph( @Param('categoria') categoria: number, @Param('areaQ') area: number, @Param('fechaIni') fechaIni: string, @Param('fechaFin') fechaFin: string ): Promise<any[]> {
+        return this.quejaService.obtenerQuejaGraph(categoria, area, fechaIni, fechaFin);
     }
 
 }
