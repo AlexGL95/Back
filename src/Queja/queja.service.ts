@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Queja } from 'src/Queja/queja.entity';
-var moment = require('moment');
 import { Moment } from "moment";
 import { Repository } from 'typeorm';
 import { createquejadto } from './Dto/queja.dto';
