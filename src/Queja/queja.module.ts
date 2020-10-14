@@ -8,11 +8,11 @@ import { AreaQuejas } from 'src/Categoria/Areas/areaQuejas.entity';
 import { CategoriaService } from 'src/Categoria/categoria.service';
 import { AreaPropuestas } from 'src/Categoria/Areas/areaPropuestas.entity';
 import { AreaRC } from 'src/Categoria/Areas/areaRC.entity';
-import { ArchivoService } from 'src/archivo/archivo.service';
+import { ArchivosService } from 'src/archivos/archivos.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ Queja, Categoria, AreaQuejas, AreaPropuestas, AreaRC ])],
   controllers: [QuejaController],
-  providers: [QuejaService, CategoriaService, ArchivoService]
+  providers: [QuejaService, CategoriaService, ArchivosService]
 })
 export class QuejaModule {}

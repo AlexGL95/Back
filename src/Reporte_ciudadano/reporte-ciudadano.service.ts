@@ -9,7 +9,6 @@ import { ReporteCiudadanoInterface } from "./interface/ReporteCiudadanoInterface
 import { CategoriaService } from 'src/Categoria/categoria.service';
 import { ArchivosService } from 'src/archivos/archivos.service';
 
-
 @Injectable()
 export class ReporteCiudadanoService {
 
@@ -17,15 +16,13 @@ export class ReporteCiudadanoService {
 
     constructor(
         private categoriaService: CategoriaService,
-        private archivosService: ArchivoService,
+        private archivosService: ArchivosService,
         @InjectRepository(reporteCiudadano)
         private rcRepository: Repository<reporteCiudadano>,
-        private categoriaService: CategoriaService,
-        private archivosService: ArchivosService
     ) {}
 
     // Metodo para generar un nuevo reporte ciudadadano y guardarlo en DB.
-    async guardarRC( body: ReporteCiudadanoDTO ): Promise<reporteCiudadano> {
+    async guardarRC( body: ReporteCiudadanoDTO ): Promise<string> {
 
         // Categorias y areas.
         const categoriasArr = await this.categoriaService.obtenerCategoria();
@@ -55,7 +52,7 @@ export class ReporteCiudadanoService {
         nuevoRC2.folio = folio; //Actualizacion del folio
         await this.rcRepository.update(nuevoRC2.id, nuevoRC2);
         // Genera PDF
-        this.archivosService.generarPDFRC(nuevoRC.nombre, nuevoRC.telefono, nuevoRC.correo, nuevoRC.codigoPostal, nuevoRC.colonia, nuevoRC.reporte, nuevoRC.categoria.tipo, nuevoRC.area.area, nuevoRC.anexos)
+        this.archivosService.generarPDFRC(nuevoRC.nombre, nuevoRC.telefono, nuevoRC.correo, nuevoRC.codigoPostal, nuevoRC.colonia, nuevoRC.reporte, nuevoRC.categoria.tipo, nuevoRC.area.area, nuevoRC.anexos, folio)
         this.path = '';
         return folio;
 

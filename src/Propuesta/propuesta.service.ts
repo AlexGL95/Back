@@ -10,7 +10,7 @@ import { Categoria } from 'src/Categoria/categoria.entity';
 import { CategoriaService } from 'src/Categoria/categoria.service';
 import { AreaPropuestas } from 'src/Categoria/Areas/areaPropuestas.entity';
 import { AreaQuejas } from 'src/Categoria/Areas/areaQuejas.entity';
-import { ArchivoService } from 'src/archivo/archivo.service';
+import { ArchivosService } from 'src/archivos/archivos.service';
 import { Propuesta } from './propuesta.entity';
 import { Moment } from "moment";
 
@@ -20,7 +20,7 @@ export class PropuestaService {
     path: string = '';
 
     constructor(
-        private archivoService: ArchivoService,
+        private archivosService: ArchivosService,
         private categoriaService: CategoriaService,
         @InjectRepository(Propuesta)
         private propuestaRepository: Repository<Propuesta>,
@@ -32,7 +32,7 @@ export class PropuestaService {
 
     
 
-    async guardarPropuesta(nuevaPropuesta: Propuestadto): Promise<Propuesta>{
+    async guardarPropuesta(nuevaPropuesta: Propuestadto): Promise<string>{
         const categoria = await this.categoriaRepository.find();
         const area = await this.areaPRepository.find();
         const newPropuesta = new Propuesta();
@@ -54,9 +54,14 @@ export class PropuestaService {
         newPropuesta.activa = false;
         newPropuesta.afiliacion = false;
 
-        this.archivoService.generarPDFP(newPropuesta.nombre, newPropuesta.telefono, newPropuesta.correo, newPropuesta.codigoPostal, newPropuesta.colonia, newPropuesta.problema, newPropuesta.propuesta, newPropuesta.categoria.tipo, newPropuesta.area.area, newPropuesta.anexos);
+        let nuevaP = await this.propuestaRepository.save(newPropuesta);
+        let folio = this.archivosService.generarFolio('P', moment().format("MMM Do YY"), nuevaP.id);
+        nuevaP.folio = folio; //Actualizacion del folio
+        await this.propuestaRepository.update(nuevaP.id, nuevaP);
+
+        this.archivosService.generarPDFP(newPropuesta.nombre, newPropuesta.telefono, newPropuesta.correo, newPropuesta.codigoPostal, newPropuesta.colonia, newPropuesta.problema, newPropuesta.propuesta, newPropuesta.categoria.tipo, newPropuesta.area.area, newPropuesta.anexos, folio);
         this.path = '';
-        return await this.propuestaRepository.save(newPropuesta);
+        return folio;
     }
 
     async obtenerPropuestas(): Promise<Propuesta[]>{

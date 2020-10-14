@@ -12,7 +12,7 @@ export class ReporteCiudadanoController {
 
     // Endpoint guardarRC.
     @Post()
-    guardarRC( @Body() body: ReporteCiudadanoDTO ): Promise<reporteCiudadano>  {
+    guardarRC( @Body() body: ReporteCiudadanoDTO ): Promise<string>  {
         return this.reporteCiudadanoService.guardarRC(body);
     }
 

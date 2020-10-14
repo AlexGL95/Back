@@ -8,7 +8,7 @@ import { CategoriaService } from 'src/Categoria/categoria.service';
 import PDFDocument = require('pdfkit');
 import fs = require('fs');
 import moment = require('moment');
-import { ArchivoService } from 'src/archivo/archivo.service';
+import { ArchivosService } from 'src/archivos/archivos.service';
 import { Categoria } from 'src/Categoria/categoria.entity';
 import { AreaPropuestas } from 'src/Categoria/Areas/areaPropuestas.entity';
 
@@ -19,7 +19,7 @@ export class QuejaService {
 
     constructor(
         private categoriaService: CategoriaService,
-        private archivosService: ArchivoService,
+        private archivosService: ArchivosService,
         @InjectRepository(Queja)
         private quejaRepository : Repository<Queja>,
         @InjectRepository(Categoria)
@@ -29,7 +29,7 @@ export class QuejaService {
     ){}
 
     // Creacion de quejas
-    async createqueja(newqueja: createquejadto){
+    async createqueja(newqueja: createquejadto): Promise<string>{
         const categoria = await this.categoriaRepository.find();
         const area = await this.areaPRepository.find();
         console.log('Se quejo');
@@ -51,9 +51,14 @@ export class QuejaService {
         queja.afiliacion = false;
         console.log(queja);
 
-        this.archivosService.generarPDFQ(queja.nombre, queja.telefono, queja.correo, queja.codigoPostal, queja.colonia, queja.queja, queja.categoria.tipo, queja.area.area, queja.evidencia);
+        let nuevaQ = await this.quejaRepository.save(queja);
+        let folio = this.archivosService.generarFolio('Q', moment().format("MMM Do YY"), nuevaQ.id);
+        nuevaQ.folio = folio; //Actualizacion del folio
+        await this.quejaRepository.update(nuevaQ.id, nuevaQ);
+
+        this.archivosService.generarPDFQ(queja.nombre, queja.telefono, queja.correo, queja.codigoPostal, queja.colonia, queja.queja, queja.categoria.tipo, queja.area.area, queja.evidencia, folio);
         this.path = '';
-        return await this.quejaRepository.save(queja);
+        return folio;
     }
 
     // Metodo para leer una pagina de reportes ciudadadanos.
