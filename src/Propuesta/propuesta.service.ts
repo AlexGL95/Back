@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { Propuestadto } from './dto/crearPropuesta.dto';
-import { Propuesta } from './propuesta.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import PDFDocument = require('pdfkit');

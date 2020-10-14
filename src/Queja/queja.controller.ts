@@ -14,7 +14,7 @@ export class QuejaController {
 
     @Post()
     create(@Res() res, @Body() createqueja: createquejadto){
-        this.quejaservice.createqueja(createqueja).then( queja => {
+        this.quejaService.createqueja(createqueja).then( queja => {
             res.status(HttpStatus.CREATED).json(queja)
         }).catch(()=>{
             res.status(HttpStatus.CONFLICT).json({mensaje:'Error en la creacion de la queja'});
@@ -30,7 +30,7 @@ export class QuejaController {
     //Endpoint obtenerQuejaGraph.
     @Get('graph/:categoria/:areaQ/:fechaIni/:fechaFin')
     obtenerQuejaGraph( @Param('categoria') categoria: number, @Param('areaQ') area: number, @Param('fechaIni') fechaIni: string, @Param('fechaFin') fechaFin: string ): Promise<any[]> {
-        return this.quejaservice.obtenerQuejaGraph(categoria, area, fechaIni, fechaFin);
+        return this.quejaService.obtenerQuejaGraph(categoria, area, fechaIni, fechaFin);
     }
 
 }

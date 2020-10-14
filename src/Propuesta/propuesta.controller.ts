@@ -54,7 +54,7 @@ export class PropuestaController {
 
     //Endpoint obtenerPropuestas.
     @Get(':categoria/:areaP/:pagina')
-    obtenerPropuestas( @Param('categoria') categoria: number, @Param('areaP') area: number, @Param('pagina') pagina: number ): Promise<{ rcArr: Propuesta[], nSig: number }> {
+    obtenerPropuesta( @Param('categoria') categoria: number, @Param('areaP') area: number, @Param('pagina') pagina: number ): Promise<{ rcArr: Propuesta[], nSig: number }> {
         return this.reporteCiudadanoService.obtenerPropuesta( categoria, area, pagina);
     }
 
