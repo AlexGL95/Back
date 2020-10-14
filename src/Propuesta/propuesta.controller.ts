@@ -13,6 +13,7 @@ export class PropuestaController {
 
     constructor(
         private propuestaService: PropuestaService,
+        private reporteCiudadanoService: PropuestaService,
     ){}
 
     @Post()
@@ -50,9 +51,6 @@ export class PropuestaController {
              response.status(HttpStatus.CONFLICT).json(err);
         } );
     }
-
-
-    constructor(private reporteCiudadanoService: PropuestaService) {}
 
     //Endpoint obtenerRC.
     @Get(':categoria/:areaRC/:pagina')

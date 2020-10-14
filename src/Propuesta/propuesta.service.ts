@@ -7,7 +7,7 @@ import moment = require('moment');
 import PDFDocument = require('pdfkit');
 import fs = require('fs');
 import { Categoria } from 'src/Categoria/categoria.entity';
-import { CategoriaService } from 'src/categoria/categoria.service';
+import { CategoriaService } from 'src/Categoria/categoria.service';
 
 @Injectable()
 export class PropuestaService {
@@ -15,10 +15,12 @@ export class PropuestaService {
     path: string;
 
     constructor(
+        private categoriaService: CategoriaService,
         @InjectRepository(Propuesta)
         private propuestaRepository: Repository<Propuesta>,
         @InjectRepository(Categoria)
         private categoriaRepository: Repository<Categoria>
+        
     ){}
 
     generarPDF(nombre: string, telefono: string, correo: string, codigo: string, colonia: string, problema: string, propuesta: string, categoria: string){
@@ -129,12 +131,6 @@ export class PropuestaService {
         console.log(files[0]);
         this.path = files[0].path;
     }
-
-    constructor(
-        @InjectRepository(Propuesta)
-        private propuestaRepository: Repository<Propuesta>,
-        private categoriaService: CategoriaService
-    ) {}
 
     // Metodo para leer una pagina de reportes ciudadadanos.
     async obtenerPropuesta( categoria: number, area: number, pagina: number ): Promise<{ rcArr: Propuesta[], nSig: number }> {

@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Queja } from 'src/Queja/queja.entity';
 import { Repository } from 'typeorm';
 import { createquejadto } from './Dto/queja.dto';
-import { CategoriaService } from 'src/categoria/categoria.service';
+import { CategoriaService } from 'src/Categoria/categoria.service';
 import PDFDocument = require('pdfkit');
 import fs = require('fs');
 
@@ -34,6 +34,7 @@ export class QuejaService {
         queja.afiliacion = false;
         console.log(queja);
         return await this.quejaRepository.save(queja);
+    }
 
     generarPDF(){
         let doc = new PDFDocument;
