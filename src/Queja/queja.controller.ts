@@ -19,10 +19,16 @@ export class QuejaController {
         });
     }
 
-    //Endpoint obtenerRC.
+    //Endpoint obtenerQueja.
     @Get(':categoria/:areaQ/:pagina')
     obtenerQueja( @Param('categoria') categoria: number, @Param('areaQ') area: number, @Param('pagina') pagina: number ): Promise<{ rcArr: Queja[], nSig: number }> {
         return this.quejaservice.obtenerQueja( categoria, area, pagina);
+    }
+
+    //Endpoint obtenerQuejaGraph.
+    @Get('graph/:categoria/:areaQ/:fechaIni/:fechaFin')
+    obtenerQuejaGraph( @Param('categoria') categoria: number, @Param('areaQ') area: number, @Param('fechaIni') fechaIni: string, @Param('fechaFin') fechaFin: string ): Promise<any[]> {
+        return this.quejaservice.obtenerQuejaGraph(categoria, area, fechaIni, fechaFin);
     }
 
 }
