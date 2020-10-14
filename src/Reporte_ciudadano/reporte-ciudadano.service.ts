@@ -7,6 +7,7 @@ import { reporteCiudadano } from './reporte-ciudadano.entity';
 import { ReporteCiudadanoDTO } from './dto/reporte-ciudadano.dto';
 import { ReporteCiudadanoInterface } from "./interface/ReporteCiudadanoInterface.interface";
 import { CategoriaService } from 'src/Categoria/categoria.service';
+import { ArchivosService } from 'src/archivos/archivos.service';
 
 
 @Injectable()
@@ -15,38 +16,40 @@ export class ReporteCiudadanoService {
     constructor(
         @InjectRepository(reporteCiudadano)
         private rcRepository: Repository<reporteCiudadano>,
-        private categoriaService: CategoriaService
+        private categoriaService: CategoriaService,
+        private archivosService: ArchivosService
     ) {}
 
     // Metodo para generar un nuevo reporte ciudadadano y guardarlo en DB.
     async guardarRC( body: ReporteCiudadanoDTO ): Promise<string> {
 
-        // Folio.
-        let folio = 'folio';
         // Categorias y areas.
         const categoriasArr = await this.categoriaService.obtenerCategoria();
         const areasArr = await this.categoriaService.obtenerAreasRC();
         // Generacion del objeto.
         let nuevoRC: ReporteCiudadanoInterface = {
-            nombre: "",
-            telefono: "",
-            correo: "",
+            nombre: '',
+            telefono: '',
+            correo: '',
             codigoPostal: body.cp,
             colonia: body.colonia,
             categoria: categoriasArr[body.categoria - 1], //Menos 1 porque el categoriasArr abarca el 0.
             area: areasArr[body.area - 1],
             reporte: body.reporte,
-            anexos: "",
+            anexos: '',
             fecha: moment().format("MMM Do YY"),
-            folio: folio,
+            folio: '',
             activa: false,
             afiliacion: false
         };
         if (body.nombre) { nuevoRC.nombre = body.nombre; }
         if (body.telefono) { nuevoRC.telefono = body.telefono; }
         if (body.correo) { nuevoRC.correo = body.correo; }
-        // Guardado en DB.
-        await this.rcRepository.save(nuevoRC);
+        // Folio.
+        let nuevoRC2 = await this.rcRepository.save(nuevoRC);
+        let folio = this.archivosService.generarFolio('RC', moment().format("MMM Do YY"), nuevoRC2.id);
+        nuevoRC2.folio = folio; //Actualizacion del folio
+        await this.rcRepository.update(nuevoRC2.id, nuevoRC2);
         return folio;
 
     }
