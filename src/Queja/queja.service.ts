@@ -3,7 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Queja } from 'src/Queja/queja.entity';
 import { Repository } from 'typeorm';
 import { createquejadto } from './Dto/queja.dto';
-import { CategoriaService } from 'src/categoria/categoria.service';
+import { CategoriaService } from 'src/Categoria/categoria.service';
+import PDFDocument = require('pdfkit');
+import fs = require('fs');
 
 @Injectable()
 export class QuejaService {
@@ -32,7 +34,16 @@ export class QuejaService {
         queja.afiliacion = false;
         console.log(queja);
         return await this.quejaRepository.save(queja);
+    }
 
+    generarPDF(){
+        let doc = new PDFDocument;
+        doc.pipe(fs.createWriteStream('./output.pdf'));
+        doc.text('Hello ', {
+            lineBreak : true,
+            lineGap: 30,
+        }).font('Times-Roman').text('World!');
+        doc.end();
     }
 
         // Metodo para leer una pagina de reportes ciudadadanos.
