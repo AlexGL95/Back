@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { createusuariodto } from './Dto/usuario.dto';
 import { Usuario } from './usuario.entity';
+import { authcredentialsdto } from '../Auth/Dto/authcredentials.dto';
 
 @Injectable()
 export class UsuarioService {
@@ -52,5 +53,16 @@ export class UsuarioService {
             return Error;
         }
 
+    }
+
+    //Validar contraseña
+    async validatepass(authCredentials:authcredentialsdto): Promise<Usuario>{
+        const {correo,pass}=authCredentials;
+        const usuario = await this.userreposotorty.findOne({correo} );
+        if (usuario && await usuario.validatepass(pass)) {
+            return await usuario;
+        } else {
+            return null;
+        }
     }
 }
