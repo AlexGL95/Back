@@ -3,7 +3,6 @@ import { MulterModule } from '@nestjs/platform-express';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AfiliacionModule } from './Afiliacion/afiliacion.module';
 import { AuthModule } from './Auth/auth.module';
 import { CategoriaModule } from './Categoria/categoria.module';
 import { EvidenciaModule } from './Evidencia/evidencia.module';

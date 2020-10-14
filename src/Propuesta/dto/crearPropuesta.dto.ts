@@ -6,4 +6,5 @@ export class Propuestadto {
     colonia: string;
     problema: string;
     propuesta: string;
+    categoria: number;
 }

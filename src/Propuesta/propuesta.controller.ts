@@ -1,10 +1,11 @@
-import { Controller, Post, Body, Res, HttpStatus, UseInterceptors, UploadedFiles, Get } from '@nestjs/common';
+import { Controller, Post, Body, Res, HttpStatus, UseInterceptors, UploadedFiles, Get, Delete, Param } from '@nestjs/common';
 import { Propuestadto } from './dto/crearPropuesta.dto';
 import { response } from 'express';
 import { diskStorage } from 'multer'
 import { PropuestaService } from './propuesta.service';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { QuejaService } from 'src/Queja/queja.service';
+import { get } from 'http';
 
 @Controller('propuesta')
 export class PropuestaController {
@@ -12,11 +13,6 @@ export class PropuestaController {
     constructor(
         private propuestaService: PropuestaService,
     ){}
-
-    @Get()
-    generarPDF() {
-        return this.propuestaService.generarPDF();
-    }
 
     @Post()
     guardarPropuesta(@Body() propuestadto: Propuestadto, @Res() response){
@@ -34,6 +30,24 @@ export class PropuestaController {
       }))
     uploadFile(@UploadedFiles() files) {
       return this.propuestaService.pathFile(files);
+    }
+
+    @Get()
+    obtenerPropuestas(@Res() response){
+      return this.propuestaService.obtenerPropuestas().then(obtenerPropuestas => {
+        response.status(HttpStatus.OK).json(obtenerPropuestas);
+      }).catch(err => {
+        response.status(HttpStatus.CONFLICT).json(err)
+      });
+    }
+
+    @Delete(':id')
+    delete( @Param('id') id, @Res() response ) {
+        this.propuestaService.borrarPropuesta( id ).then( () => {
+            response.status(HttpStatus.OK).json( {Mensaje:`User ${id} eliminated.`} );
+        }).catch( err =>{
+             response.status(HttpStatus.CONFLICT).json(err);
+        } );
     }
 
 }
