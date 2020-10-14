@@ -6,7 +6,7 @@ import { Moment } from "moment";
 import { reporteCiudadano } from './reporte-ciudadano.entity';
 import { ReporteCiudadanoDTO } from './dto/reporte-ciudadano.dto';
 import { ReporteCiudadanoInterface } from "./interface/ReporteCiudadanoInterface.interface";
-import { CategoriaService } from 'src/categoria/categoria.service';
+import { CategoriaService } from 'src/Categoria/categoria.service';
 
 
 @Injectable()
