@@ -45,11 +45,17 @@ export class ReporteCiudadanoService {
         if (body.nombre) { nuevoRC.nombre = body.nombre; }
         if (body.telefono) { nuevoRC.telefono = body.telefono; }
         if (body.correo) { nuevoRC.correo = body.correo; }
-        // Folio.
+        // Folio
         let nuevoRC2 = await this.rcRepository.save(nuevoRC);
         let folio = this.archivosService.generarFolio('RC', moment().format("MMM Do YY"), nuevoRC2.id);
         nuevoRC2.folio = folio; //Actualizacion del folio
         await this.rcRepository.update(nuevoRC2.id, nuevoRC2);
+        // Correo
+        try {
+            this.archivosService.enviarCorreo( body.correo, '' );
+        } catch (error) {
+            throw error;
+        }
         return folio;
 
     }

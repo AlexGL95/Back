@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 var moment = require('moment');
-import { Moment } from "moment";
+var nodemailer = require('nodemailer');
 
 @Injectable()
 export class ArchivosService {
@@ -25,7 +25,43 @@ export class ArchivosService {
     }
 
     // Metodo para enviar un correo al emisor.
-    enviarCorreo( nombre: string, correo: string, evidencia: string ) {
+    async enviarCorreo( correo: string, evidencia: string ) {
+
+        // Para produccion //
+        /*
+        let transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: 'example@gmail.com',
+                pass: 'password'
+            }
+        } );
+        */
+       // ---------------- //
+
+        // Para desarrollo //
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.ethereal.email',
+            port: 587,
+            auth: {
+                user: 'creola.daugherty@ethereal.email',
+                pass: 'wHXkVYpQRpdFwBWSv3'
+            }
+        });
+        // ---------------- //
+
+        const mensaje = {
+            from: '"Escucha',
+            to: correo,
+            subject: 'Atencion de Quejas, Propuestas y Reportes ciudadanos.',
+            text:   'El trámite referente a la atención de tu queja, sugerencia y/o reporte ciudadano, en adelante será recibida conforme a la normatividad establecida, con el fin de darte a conocer la respuesta y/o comentario de la atención brindada.\n\n' +
+                    'Con la finalidad de que tu queja, propuesta o reporte sea atendida, a continuacion adjuntamos el reporte generado de la misma.'
+        };
+        await transporter.sendMail( mensaje, error => {
+            if(error) {
+                console.log(error);
+            }
+        } );
 
     }
 
