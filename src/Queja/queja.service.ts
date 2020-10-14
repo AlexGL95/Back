@@ -1,26 +1,39 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Queja } from 'src/Queja/queja.entity';
-var moment = require('moment');
 import { Moment } from "moment";
 import { Repository } from 'typeorm';
 import { createquejadto } from './Dto/queja.dto';
 import { CategoriaService } from 'src/Categoria/categoria.service';
 import PDFDocument = require('pdfkit');
 import fs = require('fs');
+import moment = require('moment');
+import { ArchivosService } from 'src/archivos/archivos.service';
+import { Categoria } from 'src/Categoria/categoria.entity';
+import { AreaPropuestas } from 'src/Categoria/Areas/areaPropuestas.entity';
 
 @Injectable()
 export class QuejaService {
 
+    path: string = '';
+
     constructor(
+        private categoriaService: CategoriaService,
+        private archivosService: ArchivosService,
         @InjectRepository(Queja)
         private quejaRepository : Repository<Queja>,
-        private categoriaService: CategoriaService
+        @InjectRepository(Categoria)
+        private categoriaRepository: Repository<Categoria>,
+        @InjectRepository(AreaPropuestas)
+        private areaPRepository: Repository<AreaPropuestas>,
     ){}
 
     // Creacion de quejas
-    async createqueja(newqueja: createquejadto){
+    async createqueja(newqueja: createquejadto): Promise<string>{
+        const categoria = await this.categoriaRepository.find();
+        const area = await this.areaPRepository.find();
         console.log('Se quejo');
+        let d4 = moment().format('MMM Do YY');
         let queja = new Queja;
         queja.id=0;
         queja.nombre = newqueja.nombre;
@@ -28,27 +41,27 @@ export class QuejaService {
         queja.correo = newqueja.correo;
         queja.codigoPostal = newqueja.cp;
         queja.colonia = newqueja.colonia;
+        queja.categoria = categoria[newqueja.categoria-1];
+        queja.area = area[newqueja.area-1];
         queja.queja = newqueja.queja;
-        queja.evidencia=':D';
-        queja.fecha= ':D';
+        queja.evidencia=this.path;
+        queja.fecha= d4;
         queja.folio=':D';
         queja.activa = true;
         queja.afiliacion = false;
         console.log(queja);
-        return await this.quejaRepository.save(queja);
+
+        let nuevaQ = await this.quejaRepository.save(queja);
+        let folio = this.archivosService.generarFolio('Q', moment().format("MMM Do YY"), nuevaQ.id);
+        nuevaQ.folio = folio; //Actualizacion del folio
+        await this.quejaRepository.update(nuevaQ.id, nuevaQ);
+
+        this.archivosService.generarPDFQ(queja.nombre, queja.telefono, queja.correo, queja.codigoPostal, queja.colonia, queja.queja, queja.categoria.tipo, queja.area.area, queja.evidencia, folio);
+        this.path = '';
+        return folio;
     }
 
-    generarPDF(){
-        let doc = new PDFDocument;
-        doc.pipe(fs.createWriteStream('./output.pdf'));
-        doc.text('Hello ', {
-            lineBreak : true,
-            lineGap: 30,
-        }).font('Times-Roman').text('World!');
-        doc.end();
-    }
-
-    // Metodo para leer una pagina de quejas.
+    // Metodo para leer una pagina de reportes ciudadadanos.
     async obtenerQueja( categoria: number, area: number, pagina: number ): Promise<{ rcArr: Queja[], nSig: number }> {
         // Declaracion de variables y constantes.
         const skip = (pagina-1) * 10;
@@ -87,7 +100,10 @@ export class QuejaService {
         return paginacion;
     }
 
-    // Metodo para obtener un segmento de la graficas correspondientes a Quejas.
+    pathFile(files: File){
+        console.log(files[0]);
+        this.path = files[0].path;
+    }
     async obtenerQuejaGraph( categoria: number, area: number, fecha1: string, fecha2: string): Promise<any[]> {
         let fechaIni: Moment = moment(fecha1, "MMM Do YY");
         let fecha: Moment = moment(fecha1, "MMM Do YY").subtract(1, 'days');

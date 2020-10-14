@@ -23,10 +23,10 @@ export class PropuestaController {
         });
     }
 
-    @Post('/files')
+    @Post('/filesP')
     @UseInterceptors(AnyFilesInterceptor({
         storage: diskStorage({
-          destination: './files',
+          destination: './files/propuestas',
         }),
         limits: {fileSize: 300000}
       }))

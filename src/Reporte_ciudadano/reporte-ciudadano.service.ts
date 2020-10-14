@@ -9,15 +9,16 @@ import { ReporteCiudadanoInterface } from "./interface/ReporteCiudadanoInterface
 import { CategoriaService } from 'src/Categoria/categoria.service';
 import { ArchivosService } from 'src/archivos/archivos.service';
 
-
 @Injectable()
 export class ReporteCiudadanoService {
 
+    path: string = '';
+
     constructor(
+        private categoriaService: CategoriaService,
+        private archivosService: ArchivosService,
         @InjectRepository(reporteCiudadano)
         private rcRepository: Repository<reporteCiudadano>,
-        private categoriaService: CategoriaService,
-        private archivosService: ArchivosService
     ) {}
 
     // Metodo para generar un nuevo reporte ciudadadano y guardarlo en DB.
@@ -36,7 +37,7 @@ export class ReporteCiudadanoService {
             categoria: categoriasArr[body.categoria - 1], //Menos 1 porque el categoriasArr abarca el 0.
             area: areasArr[body.area - 1],
             reporte: body.reporte,
-            anexos: '',
+            anexos: this.path,
             fecha: moment().format("MMM Do YY"),
             folio: '',
             activa: false,
@@ -50,6 +51,9 @@ export class ReporteCiudadanoService {
         let folio = this.archivosService.generarFolio('RC', moment().format("MMM Do YY"), nuevoRC2.id);
         nuevoRC2.folio = folio; //Actualizacion del folio
         await this.rcRepository.update(nuevoRC2.id, nuevoRC2);
+        // Genera PDF
+        this.archivosService.generarPDFRC(nuevoRC.nombre, nuevoRC.telefono, nuevoRC.correo, nuevoRC.codigoPostal, nuevoRC.colonia, nuevoRC.reporte, nuevoRC.categoria.tipo, nuevoRC.area.area, nuevoRC.anexos, folio)
+        this.path = '';
         return folio;
 
     }
@@ -130,6 +134,11 @@ export class ReporteCiudadanoService {
             response.push(arrTemp);
         }
         return response;
+    }
+
+    pathFile(files: File){
+        console.log(files[0]);
+        this.path = files[0].path;
     }
 
 }
