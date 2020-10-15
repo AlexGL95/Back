@@ -13,6 +13,7 @@ import { ReporteCiudadanoModule } from './Reporte_ciudadano/reporte-ciudadano.mo
 import { ArchivosModule } from './archivos/archivos.module';
 import { ArchivosService } from './archivos/archivos.service';
 import { CronjobModule } from './cronjob/cronjob.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -38,7 +39,8 @@ import { CronjobModule } from './cronjob/cronjob.module';
       dest: '/files',
     }),
     ArchivosModule,
-    CronjobModule
+    CronjobModule,
+    ScheduleModule.forRoot()
   ],
   controllers: [AppController],
   providers: [AppService, ArchivosService],
