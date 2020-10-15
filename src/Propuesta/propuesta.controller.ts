@@ -23,10 +23,10 @@ export class PropuestaController {
         });
     }
 
-    @Post('/files')
+    @Post('/filesP')
     @UseInterceptors(AnyFilesInterceptor({
         storage: diskStorage({
-          destination: './files',
+          destination: './files/propuestas',
         }),
         limits: {fileSize: 300000}
       }))
@@ -62,6 +62,15 @@ export class PropuestaController {
     @Get('graph/:categoria/:areaP/:fechaIni/:fechaFin')
     obtenerPropuestaGraph( @Param('categoria') categoria: number, @Param('areaP') area: number, @Param('fechaIni') fechaIni: string, @Param('fechaFin') fechaFin: string ): Promise<any[]> {
         return this.reporteCiudadanoService.obtenerPropuestaGraph(categoria, area, fechaIni, fechaFin);
+    }
+
+    @Get('/:id')
+    verPropuesta( @Param('id') id, @Res() response ) {
+        this.propuestaService.verPropuesta( id ).then( verm => {
+            response.status(HttpStatus.OK).json( verm );
+        }).catch( err =>{
+             response.status(HttpStatus.CONFLICT).json(err);
+        } );
     }
 
 }

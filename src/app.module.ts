@@ -11,6 +11,7 @@ import { QuejaModule } from './Queja/queja.module';
 import { UsuarioModule } from './Usuario/usuario.module';
 import { ReporteCiudadanoModule } from './Reporte_ciudadano/reporte-ciudadano.module';
 import { ArchivosModule } from './archivos/archivos.module';
+import { ArchivosService } from './archivos/archivos.service';
 
 @Module({
   imports: [
@@ -38,6 +39,6 @@ import { ArchivosModule } from './archivos/archivos.module';
     ArchivosModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ArchivosService],
 })
 export class AppModule {}

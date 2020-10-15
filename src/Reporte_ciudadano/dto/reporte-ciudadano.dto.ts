@@ -25,6 +25,6 @@ export class ReporteCiudadanoDTO {
     @IsNumber()
     area: number;
 
-    @IsNumber()
+    @IsString()
     reporte: string;
 }
