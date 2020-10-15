@@ -20,7 +20,7 @@ import { ArchivosService } from './archivos/archivos.service';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'Konjikinogashbell25()',
+      password: '',
       database: 'escuchav1',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,

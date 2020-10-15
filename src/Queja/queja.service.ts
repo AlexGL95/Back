@@ -28,6 +28,10 @@ export class QuejaService {
         private areaPRepository: Repository<AreaPropuestas>,
     ){}
 
+    async obtenerQuejas(): Promise<Queja[]>{
+        return await this.quejaRepository.find();
+    }
+
     // Creacion de quejas
     async createqueja(newqueja: createquejadto): Promise<string>{
         const categoria = await this.categoriaRepository.find();
@@ -57,6 +61,7 @@ export class QuejaService {
         await this.quejaRepository.update(nuevaQ.id, nuevaQ);
 
         this.archivosService.generarPDFQ(queja.nombre, queja.telefono, queja.correo, queja.codigoPostal, queja.colonia, queja.queja, queja.categoria.tipo, queja.area.area, queja.evidencia, folio);
+        let pdfPath = `./pdfs/quejas/queja${folio}.pdf`
         this.path = '';
         return folio;
     }
@@ -139,6 +144,27 @@ export class QuejaService {
             response.push(arrTemp);
         }
         return response;
+    }
+
+    async verQueja(id: number){
+        let ver = await this.quejaRepository.findOne(id, {relations:['categoria', 'area']});
+        let verPath = '';
+        try {
+            fs.statSync(`./pdfs/quejas/queja${ver.folio}.pdf`);
+            verPath = `./pdfs/quejas/queja${ver.folio}.pdf`
+            return verPath;
+        }
+        catch (err) {
+          if (err.code === 'ENOENT') {
+            console.log(ver.area);
+            this.archivosService.generarPDFQ(ver.nombre, ver.telefono, ver.correo, ver.codigoPostal, ver.colonia, ver.queja, ver.categoria.tipo, ver.area.area, ver.evidencia, ver.folio);
+            
+            verPath = `./pdfs/quejas/queja${ver.folio}.pdf`
+            return verPath;
+          }
+        }
+        
+        
     }
 
 }
