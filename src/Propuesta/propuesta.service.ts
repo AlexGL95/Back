@@ -35,9 +35,7 @@ export class PropuestaService {
     async guardarPropuesta(nuevaPropuesta: Propuestadto): Promise<string>{
         const categoria = await this.categoriaService.obtenerCategoria();
         const area = await this.categoriaService.obtenerAreasP();
-        console.log(categoria);
         const newPropuesta = new Propuesta();
-
         let d4 = moment().format('MMM Do YY');
 
         newPropuesta.nombre = nuevaPropuesta.nombre;
@@ -59,11 +57,20 @@ export class PropuestaService {
         let folio = this.archivosService.generarFolio('P', moment().format("MMM Do YY"), nuevaP.id);
         nuevaP.folio = folio; //Actualizacion del folio
         await this.propuestaRepository.update(nuevaP.id, nuevaP);
-        console.log(nuevaP);
 
         this.archivosService.generarPDFP(newPropuesta.nombre, newPropuesta.telefono, newPropuesta.correo, newPropuesta.codigoPostal, newPropuesta.colonia, newPropuesta.problema, newPropuesta.propuesta, newPropuesta.categoria.tipo, newPropuesta.area.area, newPropuesta.anexos, folio);
         let pdfPath = `./pdfs/propuestas/propuesta${folio}.pdf`
         this.path = '';
+
+        // Correo
+        if (nuevaPropuesta.correo) {
+            try {
+                this.archivosService.enviarCorreo( nuevaPropuesta.correo, folio, pdfPath );
+            } catch (error) {
+                throw error;
+            }
+        }
+
         return folio;
     }
 
@@ -77,7 +84,6 @@ export class PropuestaService {
     }
 
     pathFile(files: File){
-        console.log(files[0]);
         this.path = files[0].path;
     }
 
@@ -168,7 +174,6 @@ export class PropuestaService {
         }
         catch (err) {
           if (err.code === 'ENOENT') {
-            console.log(ver.area);
             this.archivosService.generarPDFP(ver.nombre, ver.telefono, ver.correo, ver.codigoPostal, ver.colonia, ver.problema, ver.propuesta, ver.categoria.tipo, ver.area.area, ver.anexos, ver.folio);
             
             verPath = `./pdfs/propuestas/propuesta${ver.folio}.pdf`
