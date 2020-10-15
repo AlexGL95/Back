@@ -47,7 +47,7 @@ export class ReporteCiudadanoService {
         if (body.nombre) { nuevoRC.nombre = body.nombre; }
         if (body.telefono) { nuevoRC.telefono = body.telefono; }
         if (body.correo) { nuevoRC.correo = body.correo; }
-        // Folio.
+        // Folio
         let nuevoRC2 = await this.rcRepository.save(nuevoRC);
         let folio = this.archivosService.generarFolio('RC', moment().format("MMM Do YY"), nuevoRC2.id);
         nuevoRC2.folio = folio; //Actualizacion del folio
@@ -56,6 +56,14 @@ export class ReporteCiudadanoService {
         this.archivosService.generarPDFRC(nuevoRC.nombre, nuevoRC.telefono, nuevoRC.correo, nuevoRC.codigoPostal, nuevoRC.colonia, nuevoRC.reporte, nuevoRC.categoria.tipo, nuevoRC.area.area, nuevoRC.anexos, folio)
         let pdfPath = `./pdfs/reportes/reporte${folio}.pdf`
         this.path = '';
+        // Correo
+        if (body.correo) {
+            try {
+                this.archivosService.enviarCorreo( body.correo, folio, pdfPath );
+            } catch (error) {
+                throw error;
+            }
+        }
         return folio;
 
     }
@@ -139,7 +147,6 @@ export class ReporteCiudadanoService {
     }
 
     pathFile(files: File){
-        console.log(files[0]);
         this.path = files[0].path;
     }
 
@@ -153,7 +160,6 @@ export class ReporteCiudadanoService {
         }
         catch (err) {
           if (err.code === 'ENOENT') {
-            console.log(ver.area);
             this.archivosService.generarPDFRC(ver.nombre, ver.telefono, ver.correo, ver.codigoPostal, ver.colonia, ver.reporte, ver.categoria.tipo, ver.area.area, ver.anexos, ver.folio);
             
             verPath = `./pdfs/reportes/reporte${ver.folio}.pdf`

@@ -17,10 +17,13 @@ export class PropuestaController {
     ){}
 
     @Post()
-    guardarPropuesta(@Body() propuestadto: Propuestadto, @Res() response){
-        this.propuestaService.guardarPropuesta(propuestadto).then(propuestam => {
-            response.status(HttpStatus.CREATED).json(propuestam);
-        });
+    guardarPropuesta(@Body() propuestadto: Propuestadto, @Res() res){
+        this.propuestaService.guardarPropuesta(propuestadto)
+          .then( folio => {
+            res.status(HttpStatus.CREATED).json(folio)
+          }).catch((err)=>{
+            res.status(HttpStatus.CONFLICT).json(err);
+          });
     }
 
     @Post('/filesP')
@@ -54,14 +57,24 @@ export class PropuestaController {
 
     //Endpoint obtenerPropuestas.
     @Get(':categoria/:areaP/:pagina')
-    obtenerPropuesta( @Param('categoria') categoria: number, @Param('areaP') area: number, @Param('pagina') pagina: number ): Promise<{ rcArr: Propuesta[], nSig: number }> {
-        return this.reporteCiudadanoService.obtenerPropuesta( categoria, area, pagina);
+    obtenerPropuesta( @Res() res, @Param('categoria') categoria: number, @Param('areaP') area: number, @Param('pagina') pagina: number ) {
+        this.reporteCiudadanoService.obtenerPropuesta( categoria, area, pagina)
+          .then( pagina => {
+            res.status(HttpStatus.CREATED).json(pagina)
+          }).catch((err)=>{
+            res.status(HttpStatus.CONFLICT).json(err);
+          });
     }
 
     //Endpoint obtenerPropuestaGraph.
     @Get('graph/:categoria/:areaP/:fechaIni/:fechaFin')
-    obtenerPropuestaGraph( @Param('categoria') categoria: number, @Param('areaP') area: number, @Param('fechaIni') fechaIni: string, @Param('fechaFin') fechaFin: string ): Promise<any[]> {
-        return this.reporteCiudadanoService.obtenerPropuestaGraph(categoria, area, fechaIni, fechaFin);
+    obtenerPropuestaGraph( @Res() res, @Param('categoria') categoria: number, @Param('areaP') area: number, @Param('fechaIni') fechaIni: string, @Param('fechaFin') fechaFin: string ) {
+        this.reporteCiudadanoService.obtenerPropuestaGraph(categoria, area, fechaIni, fechaFin)
+          .then( arr => {
+            res.status(HttpStatus.CREATED).json(arr)
+          }).catch((err)=>{
+            res.status(HttpStatus.CONFLICT).json(err);
+          });
     }
 
     @Get('/:id')

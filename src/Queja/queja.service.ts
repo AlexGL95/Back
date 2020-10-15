@@ -34,9 +34,8 @@ export class QuejaService {
 
     // Creacion de quejas
     async createqueja(newqueja: createquejadto): Promise<string>{
-        const categoria = await this.categoriaRepository.find();
-        const area = await this.areaPRepository.find();
-        console.log('Se quejo');
+        const categoria = await this.categoriaService.obtenerCategoria();
+        const area = await this.categoriaService.obtenerAreasQ();
         let d4 = moment().format('MMM Do YY');
         let queja = new Queja;
         queja.id=0;
@@ -53,7 +52,6 @@ export class QuejaService {
         queja.folio=':D';
         queja.activa = true;
         queja.afiliacion = false;
-        console.log(queja);
 
         let nuevaQ = await this.quejaRepository.save(queja);
         let folio = this.archivosService.generarFolio('Q', moment().format("MMM Do YY"), nuevaQ.id);
@@ -63,6 +61,16 @@ export class QuejaService {
         this.archivosService.generarPDFQ(queja.nombre, queja.telefono, queja.correo, queja.codigoPostal, queja.colonia, queja.queja, queja.categoria.tipo, queja.area.area, queja.evidencia, folio);
         let pdfPath = `./pdfs/quejas/queja${folio}.pdf`
         this.path = '';
+
+        // Correo
+        if (newqueja.correo) {
+            try {
+                this.archivosService.enviarCorreo( newqueja.correo, folio, pdfPath );
+            } catch (error) {
+                throw error;
+            }
+        }
+
         return folio;
     }
 
@@ -106,7 +114,6 @@ export class QuejaService {
     }
 
     pathFile(files: File){
-        console.log(files[0]);
         this.path = files[0].path;
     }
     async obtenerQuejaGraph( categoria: number, area: number, fecha1: string, fecha2: string): Promise<any[]> {
@@ -156,7 +163,6 @@ export class QuejaService {
         }
         catch (err) {
           if (err.code === 'ENOENT') {
-            console.log(ver.area);
             this.archivosService.generarPDFQ(ver.nombre, ver.telefono, ver.correo, ver.codigoPostal, ver.colonia, ver.queja, ver.categoria.tipo, ver.area.area, ver.evidencia, ver.folio);
             
             verPath = `./pdfs/quejas/queja${ver.folio}.pdf`
