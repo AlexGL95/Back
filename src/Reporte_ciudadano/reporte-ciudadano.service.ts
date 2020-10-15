@@ -8,6 +8,7 @@ import { ReporteCiudadanoDTO } from './dto/reporte-ciudadano.dto';
 import { ReporteCiudadanoInterface } from "./interface/ReporteCiudadanoInterface.interface";
 import { CategoriaService } from 'src/Categoria/categoria.service';
 import { ArchivosService } from 'src/archivos/archivos.service';
+import fs = require('fs');
 
 @Injectable()
 export class ReporteCiudadanoService {
@@ -53,6 +54,7 @@ export class ReporteCiudadanoService {
         await this.rcRepository.update(nuevoRC2.id, nuevoRC2);
         // Genera PDF
         this.archivosService.generarPDFRC(nuevoRC.nombre, nuevoRC.telefono, nuevoRC.correo, nuevoRC.codigoPostal, nuevoRC.colonia, nuevoRC.reporte, nuevoRC.categoria.tipo, nuevoRC.area.area, nuevoRC.anexos, folio)
+        let pdfPath = `./pdfs/reportes/reporte${folio}.pdf`
         this.path = '';
         return folio;
 
@@ -139,6 +141,27 @@ export class ReporteCiudadanoService {
     pathFile(files: File){
         console.log(files[0]);
         this.path = files[0].path;
+    }
+
+    async verQueja(id: number){
+        let ver = await this.rcRepository.findOne(id, {relations:['categoria', 'area']});
+        let verPath = '';
+        try {
+            fs.statSync(`./pdfs/reportes/reporte${ver.folio}.pdf`);
+            verPath = `./pdfs/reportes/reporte${ver.folio}.pdf`
+            return verPath;
+        }
+        catch (err) {
+          if (err.code === 'ENOENT') {
+            console.log(ver.area);
+            this.archivosService.generarPDFRC(ver.nombre, ver.telefono, ver.correo, ver.codigoPostal, ver.colonia, ver.reporte, ver.categoria.tipo, ver.area.area, ver.anexos, ver.folio);
+            
+            verPath = `./pdfs/reportes/reporte${ver.folio}.pdf`
+            return verPath;
+          }
+        }
+        
+        
     }
 
 }

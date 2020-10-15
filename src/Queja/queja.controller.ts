@@ -45,5 +45,23 @@ export class QuejaController {
         return this.quejaService.obtenerQuejaGraph(categoria, area, fechaIni, fechaFin);
     }
 
+    @Get()
+    obtenerQuejas(@Res() response){
+      return this.quejaService.obtenerQuejas().then(obtenerPropuestas => {
+        response.status(HttpStatus.OK).json(obtenerPropuestas);
+      }).catch(err => {
+        response.status(HttpStatus.CONFLICT).json(err)
+      });
+    }
+
+    @Get('/:id')
+    verPropuesta( @Param('id') id, @Res() response ) {
+        this.quejaService.verQueja( id ).then( verm => {
+            response.status(HttpStatus.OK).json( verm );
+        }).catch( err =>{
+             response.status(HttpStatus.CONFLICT).json(err);
+        } );
+    }
+
 }
 

@@ -33,8 +33,9 @@ export class PropuestaService {
     
 
     async guardarPropuesta(nuevaPropuesta: Propuestadto): Promise<string>{
-        const categoria = await this.categoriaRepository.find();
-        const area = await this.areaPRepository.find();
+        const categoria = await this.categoriaService.obtenerCategoria();
+        const area = await this.categoriaService.obtenerAreasP();
+        console.log(categoria);
         const newPropuesta = new Propuesta();
 
         let d4 = moment().format('MMM Do YY');
@@ -58,8 +59,10 @@ export class PropuestaService {
         let folio = this.archivosService.generarFolio('P', moment().format("MMM Do YY"), nuevaP.id);
         nuevaP.folio = folio; //Actualizacion del folio
         await this.propuestaRepository.update(nuevaP.id, nuevaP);
+        console.log(nuevaP);
 
         this.archivosService.generarPDFP(newPropuesta.nombre, newPropuesta.telefono, newPropuesta.correo, newPropuesta.codigoPostal, newPropuesta.colonia, newPropuesta.problema, newPropuesta.propuesta, newPropuesta.categoria.tipo, newPropuesta.area.area, newPropuesta.anexos, folio);
+        let pdfPath = `./pdfs/propuestas/propuesta${folio}.pdf`
         this.path = '';
         return folio;
     }
@@ -153,6 +156,27 @@ export class PropuestaService {
             response.push(arrTemp);
         }
         return response;
+    }
+
+    async verPropuesta(id: number){
+        let ver = await this.propuestaRepository.findOne(id, {relations:['categoria', 'area']});
+        let verPath = '';
+        try {
+            fs.statSync(`./pdfs/propuestas/propuesta${ver.folio}.pdf`);
+            verPath = `./pdfs/propuestas/propuesta${ver.folio}.pdf`
+            return verPath;
+        }
+        catch (err) {
+          if (err.code === 'ENOENT') {
+            console.log(ver.area);
+            this.archivosService.generarPDFP(ver.nombre, ver.telefono, ver.correo, ver.codigoPostal, ver.colonia, ver.problema, ver.propuesta, ver.categoria.tipo, ver.area.area, ver.anexos, ver.folio);
+            
+            verPath = `./pdfs/propuestas/propuesta${ver.folio}.pdf`
+            return verPath;
+          }
+        }
+        
+        
     }
 
 }

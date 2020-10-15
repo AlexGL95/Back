@@ -64,4 +64,13 @@ export class PropuestaController {
         return this.reporteCiudadanoService.obtenerPropuestaGraph(categoria, area, fechaIni, fechaFin);
     }
 
+    @Get('/:id')
+    verPropuesta( @Param('id') id, @Res() response ) {
+        this.propuestaService.verPropuesta( id ).then( verm => {
+            response.status(HttpStatus.OK).json( verm );
+        }).catch( err =>{
+             response.status(HttpStatus.CONFLICT).json(err);
+        } );
+    }
+
 }
