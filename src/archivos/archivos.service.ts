@@ -299,13 +299,19 @@ export class ArchivosService {
             host: 'smtp.ethereal.email',
             port: 587,
             auth: {
-                user: 'creola.daugherty@ethereal.email',
-                pass: 'wHXkVYpQRpdFwBWSv3'
+                user: 'allison.mann95@ethereal.email',
+                pass: 'xDKKnwcsKbdmuZPGmp'
             }
+            // ----- Para pruebas de produccion ----- //
+            /*service: 'Gmail',
+            auth: {
+                user: 'innmortalmailservice@gmail.com',
+                pass: 'Innmortal1234'
+            }*/
             // ----- Para produccion ----- //
             /*service: 'Gmail',
             auth: {
-                user: 'example@gmail.com',
+                user: 'ejenplo@gmail.com',
                 pass: 'password'
             }*/
         });
@@ -318,7 +324,7 @@ export class ArchivosService {
             text:   'El trámite referente a la atención de tu queja, sugerencia y/o reporte ciudadano, en adelante será recibida conforme a la normatividad establecida, con el fin de darte a conocer la respuesta y/o comentario de la atención brindada.\n\n' +
                     'Con la finalidad de que tu queja, propuesta o reporte sea atendida, a continuacion adjuntamos el reporte generado de la misma.',
             attachments: [ {
-                filename: 'Reporte' + folio,
+                filename: 'Reporte' + folio + '.pdf',
                 path: pdfPath,
                 contentType: 'application/pdf'
             } ],

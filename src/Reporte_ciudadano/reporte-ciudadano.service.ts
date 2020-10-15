@@ -57,10 +57,12 @@ export class ReporteCiudadanoService {
         let pdfPath = `./pdfs/reportes/reporte${folio}.pdf`
         this.path = '';
         // Correo
-        try {
-            this.archivosService.enviarCorreo( body.correo, folio, '' );
-        } catch (error) {
-            throw error;
+        if (body.correo) {
+            try {
+                this.archivosService.enviarCorreo( body.correo, folio, pdfPath );
+            } catch (error) {
+                throw error;
+            }
         }
         return folio;
 
@@ -145,7 +147,6 @@ export class ReporteCiudadanoService {
     }
 
     pathFile(files: File){
-        console.log(files[0]);
         this.path = files[0].path;
     }
 
@@ -159,7 +160,6 @@ export class ReporteCiudadanoService {
         }
         catch (err) {
           if (err.code === 'ENOENT') {
-            console.log(ver.area);
             this.archivosService.generarPDFRC(ver.nombre, ver.telefono, ver.correo, ver.codigoPostal, ver.colonia, ver.reporte, ver.categoria.tipo, ver.area.area, ver.anexos, ver.folio);
             
             verPath = `./pdfs/reportes/reporte${ver.folio}.pdf`

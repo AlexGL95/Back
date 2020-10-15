@@ -14,11 +14,12 @@ export class QuejaController {
 
     @Post()
     create(@Res() res, @Body() createqueja: createquejadto){
-        this.quejaService.createqueja(createqueja).then( queja => {
-            res.status(HttpStatus.CREATED).json(queja)
-        }).catch(()=>{
-            res.status(HttpStatus.CONFLICT).json({mensaje:'Error en la creacion de la queja'});
-        });
+        this.quejaService.createqueja(createqueja)
+          .then( folio => {
+            res.status(HttpStatus.CREATED).json(folio)
+          }).catch((err)=>{
+            res.status(HttpStatus.CONFLICT).json(err);
+          });
     }
 
     //Endpoint obtenerQueja.
@@ -35,14 +36,24 @@ export class QuejaController {
 
     //Endpoint obtenerRC.
     @Get(':categoria/:areaQ/:pagina')
-    obtenerQueja( @Param('categoria') categoria: number, @Param('areaQ') area: number, @Param('pagina') pagina: number ): Promise<{ rcArr: Queja[], nSig: number }> {
-        return this.quejaService.obtenerQueja( categoria, area, pagina);
+    obtenerQueja( @Res() res, @Param('categoria') categoria: number, @Param('areaQ') area: number, @Param('pagina') pagina: number ) {
+        this.quejaService.obtenerQueja( categoria, area, pagina)
+          .then( pagina => {
+            res.status(HttpStatus.CREATED).json(pagina)
+          }).catch((err)=>{
+            res.status(HttpStatus.CONFLICT).json(err);
+          });
     }
 
     //Endpoint obtenerQuejaGraph.
     @Get('graph/:categoria/:areaQ/:fechaIni/:fechaFin')
-    obtenerQuejaGraph( @Param('categoria') categoria: number, @Param('areaQ') area: number, @Param('fechaIni') fechaIni: string, @Param('fechaFin') fechaFin: string ): Promise<any[]> {
-        return this.quejaService.obtenerQuejaGraph(categoria, area, fechaIni, fechaFin);
+    obtenerQuejaGraph( @Res() res, @Param('categoria') categoria: number, @Param('areaQ') area: number, @Param('fechaIni') fechaIni: string, @Param('fechaFin') fechaFin: string ) {
+        this.quejaService.obtenerQuejaGraph(categoria, area, fechaIni, fechaFin)
+          .then( arr => {
+            res.status(HttpStatus.CREATED).json(arr)
+          }).catch((err)=>{
+            res.status(HttpStatus.CONFLICT).json(err);
+          });
     }
 
     @Get()
