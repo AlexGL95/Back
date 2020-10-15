@@ -12,9 +12,9 @@ export class ArchivosService {
     generarFolio( tipo: string, fecha: string, id: number ) {
         let folio: string;
         if ( (tipo==='Q') || (tipo==='P') || (tipo==='RC') ) {
-            let fechaTemp = moment(fecha, "MMM Do YY").format('L');
+            let fechaTemp = moment(fecha, "MMM Do YY").format('D/M/YY');
             let codigo = (id * 73).toString(10);
-            folio = tipo + fechaTemp.substr( 0, (fechaTemp.length - 2) ) + codigo.substr( (codigo.length - 4), 4 );
+            folio = tipo + fechaTemp + codigo.substr( (codigo.length - 4), 4 );
             folio = folio.replace('/','');
             folio = folio.replace('/','');
             return folio;
