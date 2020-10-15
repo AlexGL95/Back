@@ -50,9 +50,11 @@ export class ReporteCiudadanoService {
         let folio = this.archivosService.generarFolio('RC', moment().format("MMM Do YY"), nuevoRC2.id);
         nuevoRC2.folio = folio; //Actualizacion del folio
         await this.rcRepository.update(nuevoRC2.id, nuevoRC2);
+        // Generacion de pdf
+        
         // Correo
         try {
-            this.archivosService.enviarCorreo( body.correo, '' );
+            this.archivosService.enviarCorreo( body.correo, folio, '' );
         } catch (error) {
             throw error;
         }

@@ -25,38 +25,40 @@ export class ArchivosService {
     }
 
     // Metodo para enviar un correo al emisor.
-    async enviarCorreo( correo: string, evidencia: string ) {
+    async enviarCorreo( correo: string, folio: string, pdfPath: string ) {
 
-        // Para produccion //
-        /*
-        let transporter = nodemailer.createTransport({
-            service: 'Gmail',
-            auth: {
-                user: 'example@gmail.com',
-                pass: 'password'
-            }
-        } );
-        */
-       // ---------------- //
-
-        // Para desarrollo //
+        // Configuracion del transporter.
         const transporter = nodemailer.createTransport({
+            // ----- Para desarrollo ----- //
             host: 'smtp.ethereal.email',
             port: 587,
             auth: {
                 user: 'creola.daugherty@ethereal.email',
                 pass: 'wHXkVYpQRpdFwBWSv3'
             }
+            // ----- Para produccion ----- //
+            /*service: 'Gmail',
+            auth: {
+                user: 'example@gmail.com',
+                pass: 'password'
+            }*/
         });
-        // ---------------- //
 
+        // Creacion del mensaje
         const mensaje = {
             from: '"Escucha',
             to: correo,
             subject: 'Atencion de Quejas, Propuestas y Reportes ciudadanos.',
             text:   'El trámite referente a la atención de tu queja, sugerencia y/o reporte ciudadano, en adelante será recibida conforme a la normatividad establecida, con el fin de darte a conocer la respuesta y/o comentario de la atención brindada.\n\n' +
-                    'Con la finalidad de que tu queja, propuesta o reporte sea atendida, a continuacion adjuntamos el reporte generado de la misma.'
+                    'Con la finalidad de que tu queja, propuesta o reporte sea atendida, a continuacion adjuntamos el reporte generado de la misma.',
+            attachments: [ {
+                filename: 'Reporte' + folio,
+                path: pdfPath,
+                contentType: 'application/pdf'
+            } ],
         };
+
+        // Envio del correo.
         await transporter.sendMail( mensaje, error => {
             if(error) {
                 console.log(error);
