@@ -12,6 +12,7 @@ import { UsuarioModule } from './Usuario/usuario.module';
 import { ReporteCiudadanoModule } from './Reporte_ciudadano/reporte-ciudadano.module';
 import { ArchivosModule } from './archivos/archivos.module';
 import { ArchivosService } from './archivos/archivos.service';
+import { CronjobModule } from './cronjob/cronjob.module';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { ArchivosService } from './archivos/archivos.service';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'Konjikinogashbell25()',
+      password: '',
       database: 'escuchav1',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
@@ -36,7 +37,8 @@ import { ArchivosService } from './archivos/archivos.service';
     MulterModule.register({
       dest: '/files',
     }),
-    ArchivosModule
+    ArchivosModule,
+    CronjobModule
   ],
   controllers: [AppController],
   providers: [AppService, ArchivosService],
