@@ -12,6 +12,8 @@ import { UsuarioModule } from './Usuario/usuario.module';
 import { ReporteCiudadanoModule } from './Reporte_ciudadano/reporte-ciudadano.module';
 import { ArchivosModule } from './archivos/archivos.module';
 import { ArchivosService } from './archivos/archivos.service';
+import { CronjobModule } from './cronjob/cronjob.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -36,7 +38,9 @@ import { ArchivosService } from './archivos/archivos.service';
     MulterModule.register({
       dest: '/files',
     }),
-    ArchivosModule
+    ArchivosModule,
+    CronjobModule,
+    ScheduleModule.forRoot()
   ],
   controllers: [AppController],
   providers: [AppService, ArchivosService],

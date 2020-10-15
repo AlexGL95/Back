@@ -21,10 +21,10 @@ export class createquejadto{
     colonia:string;
 
     @IsNumber()
-    categoria:number;
+    categoria: number;
 
     @IsNumber()
-    area:number;
+    area: number;
 
     @IsString()
     queja:string;
