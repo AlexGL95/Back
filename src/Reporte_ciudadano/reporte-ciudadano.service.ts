@@ -166,8 +166,7 @@ export class ReporteCiudadanoService {
             return verPath;
           }
         }
-        
-        
+
     }
 
 }
