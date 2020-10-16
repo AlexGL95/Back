@@ -123,18 +123,18 @@ export class ReporteCiudadanoService {
             let rcArr: reporteCiudadano[];
             // Si no tiene categoria ni area = retorna cualquier paginacion disponible.
             if( (categoria == 0) && (area == 0) ) {
-                rcArr = await this.rcRepository.find( { where: { fecha: fecha.format("MMM Do YY") } } );
+                rcArr = await this.rcRepository.find( { order: { id: "DESC" }, where: { fecha: fecha.format("MMM Do YY") } } );
             }
             // Si no tiene area pero si categoria = retorna la paginacion correspondiente a la categoria.
             else if( (categoria != 0) && (area == 0) ) {
                 const categoriasArr = await this.categoriaService.obtenerCategoria();
-                rcArr = await this.rcRepository.find( { where: { fecha: fecha.format("MMM Do YY"), categoria: categoriasArr[categoria - 1] } } );
+                rcArr = await this.rcRepository.find( { where: { order: { id: "DESC" }, fecha: fecha.format("MMM Do YY"), categoria: categoriasArr[categoria - 1] } } );
             }
             // Si no tiene area pero si categoria = retorna la paginacion correspondiente a la categoria.
             else if( (categoria != 0) && (area != 0) ) {
                 const categoriasArr = await this.categoriaService.obtenerCategoria();
                 const areasArr = await this.categoriaService.obtenerAreasRC();
-                rcArr = await this.rcRepository.find( { where: { fecha: fecha.format("MMM Do YY"), categoria: categoriasArr[categoria - 1], area: areasArr[area - 1] } } );
+                rcArr = await this.rcRepository.find( { where: { order: { id: "DESC" }, fecha: fecha.format("MMM Do YY"), categoria: categoriasArr[categoria - 1], area: areasArr[area - 1] } } );
             }
             else {
                 console.log('Paso error');

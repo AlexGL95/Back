@@ -94,18 +94,18 @@ export class PropuestaService {
         let rcArr: Propuesta[] = [];
         // Si no tiene categoria ni area = retorna cualquier paginacion disponible.
         if( (categoria == 0) && (area == 0) ) {
-            rcArr = await this.propuestaRepository.find( {  skip: skip, take: 50 } );
+            rcArr = await this.propuestaRepository.find( { order: { id: "DESC" }, skip: skip, take: 50 } );
         }
         // Si no tiene area pero si categoria = retorna la paginacion correspondiente a la categoria.
         else if( (categoria != 0) && (area == 0) ) {
             const categoriasArr = await this.categoriaService.obtenerCategoria();
-            rcArr = await this.propuestaRepository.find( { where: { categoria: categoriasArr[categoria - 1] }, skip: skip, take: 50 } );
+            rcArr = await this.propuestaRepository.find( { order: { id: "DESC" }, where: { categoria: categoriasArr[categoria - 1] }, skip: skip, take: 50 } );
         }
         // Si tiene area y categoria = retorna la paginacion correspondiente al area de la categoria.
         else if( (categoria != 0) && (area != 0) ) {
             const categoriasArr = await this.categoriaService.obtenerCategoria();
             const areasArr = await this.categoriaService.obtenerAreasRC();
-            rcArr = await this.propuestaRepository.find( { where: { categoria: categoriasArr[categoria - 1], area: areasArr[area - 1] }, skip: skip, take: 50 } );
+            rcArr = await this.propuestaRepository.find( { order: { id: "DESC" }, where: { categoria: categoriasArr[categoria - 1], area: areasArr[area - 1] }, skip: skip, take: 50 } );
         }
         else {
             console.log('paso error');
