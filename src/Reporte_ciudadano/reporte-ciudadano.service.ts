@@ -150,7 +150,7 @@ export class ReporteCiudadanoService {
         this.path = files[0].path;
     }
 
-    async verQueja(id: number){
+    async verRC(id: number){
         let ver = await this.rcRepository.findOne(id, {relations:['categoria', 'area']});
         let verPath = '';
         try {
