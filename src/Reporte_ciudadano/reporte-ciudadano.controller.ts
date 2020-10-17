@@ -1,10 +1,9 @@
-import { Controller, Post, Body, Get, Param, UseInterceptors, UploadedFiles, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, UseInterceptors, UploadedFiles, Res, HttpStatus, Header } from '@nestjs/common';
 import { ReporteCiudadanoDTO } from './dto/reporte-ciudadano.dto';
 import { ReporteCiudadanoService } from './reporte-ciudadano.service';
-import { reporteCiudadano } from './reporte-ciudadano.entity';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer'
-import { response } from 'express';
+import fs = require('fs');
 
 @Controller('rc')
 export class ReporteCiudadanoController {
@@ -53,6 +52,18 @@ export class ReporteCiudadanoController {
           }).catch((err)=>{
             res.status(HttpStatus.CONFLICT).json(err);
           });
+    }
+
+    //Endpoint verRC.
+    @Get('/:id')
+    @Header('Content-Type', 'application/pdf')
+    @Header('Content-Disposition', 'attachment; filename=queja.pdf')
+    verQueja( @Param('id') id, @Res() response ) {
+        this.reporteCiudadanoService.verRC( id ).then( verm => {
+          return fs.createReadStream( verm ).pipe(response);
+        }).catch( err =>{
+              response.status(HttpStatus.CONFLICT).json(err);
+        } );
     }
 
 }
