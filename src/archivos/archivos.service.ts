@@ -11,9 +11,10 @@ export class ArchivosService {
     // Metodo para generacion de folios. Necesita el tipo (Q,P,RC), la fecha y el id en base de datos.
     generarFolio( tipo: string, fecha: string, id: number ) {
         let folio: string;
+        let nRandom = Math.floor(Math.random() * (999 - 0)) + 0;
         if ( (tipo==='Q') || (tipo==='P') || (tipo==='RC') ) {
             let fechaTemp = moment(fecha, "MMM Do YY").format('D/M/YY');
-            let codigo = (id * 73).toString(10);
+            let codigo = (id * nRandom).toString(10);
             folio = tipo + fechaTemp + codigo.substr( (codigo.length - 4), 4 );
             folio = folio.replace('/','');
             folio = folio.replace('/','');
