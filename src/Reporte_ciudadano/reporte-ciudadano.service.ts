@@ -147,7 +147,8 @@ export class ReporteCiudadanoService {
     }
 
     pathFile(files: File){
-        this.path = files[0].path;
+        this.path = `${files[0].destination}/${files[0].filename}`
+        console.log(this.path);
     }
 
     async verRC(id: number){
@@ -167,6 +168,14 @@ export class ReporteCiudadanoService {
           }
         }
 
+    }
+
+    async verEvidencia(folio: string){
+        console.log('paso');
+        let ver = await this.rcRepository.findOne({ where: { folio: `${folio}` }});
+        console.log(ver);
+        return ver.anexos;
+        
     }
 
 }
