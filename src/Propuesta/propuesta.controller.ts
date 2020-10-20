@@ -1,12 +1,9 @@
-import { Propuesta } from './propuesta.entity';
-import { Controller, Post, Body, Res, HttpStatus, UseInterceptors, UploadedFiles, Get, Delete, Param } from '@nestjs/common';
+import { Controller, Post, Body, Res, HttpStatus, UseInterceptors, UploadedFiles, Get, Delete, Param, Header } from '@nestjs/common';
 import { Propuestadto } from './dto/crearPropuesta.dto';
-import { response } from 'express';
 import { diskStorage } from 'multer'
 import { PropuestaService } from './propuesta.service';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
-import { QuejaService } from 'src/Queja/queja.service';
-import { get } from 'http';
+import fs = require('fs');
 
 @Controller('propuesta')
 export class PropuestaController {
@@ -87,10 +84,13 @@ export class PropuestaController {
           });
     }
 
+    //Endpoint verPropuesta.
     @Get('/:id')
-    verPropuesta( @Param('id') id, @Res() response ) {
+    @Header('Content-Type', 'application/pdf')
+    @Header('Content-Disposition', 'attachment; filename=queja.pdf')
+    verQueja( @Param('id') id, @Res() response ) {
         this.propuestaService.verPropuesta( id ).then( verm => {
-            response.status(HttpStatus.OK).json( verm );
+          return fs.createReadStream( verm ).pipe(response);
         }).catch( err =>{
              response.status(HttpStatus.CONFLICT).json(err);
         } );

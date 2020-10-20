@@ -21,7 +21,7 @@ export class AuthController {
             let correo= user.correo;
             const payload = { correo };
             const accesstoken = await this.jwtService.sign(payload);
-            let res = {token: accesstoken}
+            let res = {token: accesstoken, correo: correo}
             response.status(HttpStatus.ACCEPTED).json(res);
         }
     }
@@ -29,7 +29,7 @@ export class AuthController {
     @Post('upd')
     @UseGuards(AuthGuard())
     async updt(@Body() correo: string, @Res() response){
-            const payload = { correo };
+            const payload =correo;
             const accesstoken = await this.jwtService.sign(payload);
             let res = {token: accesstoken}
             response.status(HttpStatus.ACCEPTED).json(res);
