@@ -86,7 +86,7 @@ export class ArchivosService {
             doc.font('Helvetica')
             .fillColor('red')
             .text('Evidencia', {
-            link: 'http://apple.com/',
+            link: `http://localhost:4200/Propuesta/ver/${folio}`,
             underline: true
         });
         }

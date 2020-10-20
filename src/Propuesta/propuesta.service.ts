@@ -75,7 +75,7 @@ export class PropuestaService {
     }
 
     async obtenerPropuestas(): Promise<Propuesta[]>{
-        return await this.propuestaRepository.find();
+        return await this.propuestaRepository.find({relations:['categoria', 'area']});
     }
 
     async borrarPropuesta(id: number): Promise<Propuesta[]>{
@@ -84,7 +84,9 @@ export class PropuestaService {
     }
 
     pathFile(files: File){
-        this.path = files[0].path;
+        
+        this.path = `${files[0].destination}/${files[0].filename}`
+        console.log(this.path);
     }
 
     // Metodo para leer una pagina de propuestas.
@@ -183,5 +185,28 @@ export class PropuestaService {
         
         
     }
+
+    async prueba(){
+        try {
+            fs.statSync(`./files/propuestas/índice.jpeg`);
+            console.log('Existe');
+        }
+        catch (err) {
+          if (err.code === 'ENOENT') {
+            console.log('No existe');
+          }
+        }
+        
+        
+    }
+
+    async verEvidencia(folio: string){
+        console.log('paso');
+        let ver = await this.propuestaRepository.findOne({ where: { folio: `${folio}` }});
+        console.log(ver);
+        return ver.anexos;
+        
+    }
+
 
 }

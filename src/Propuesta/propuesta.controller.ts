@@ -28,8 +28,18 @@ export class PropuestaController {
 
     @Post('/filesP')
     @UseInterceptors(AnyFilesInterceptor({
+      
         storage: diskStorage({
           destination: './files/propuestas',
+          filename: function (req, file, cb) {
+            console.log(file);
+            cb(null, file.originalname)
+          },
+          path: function (req, file, cb) {
+            console.log(file);
+            cb(null, `./files/propuestas/${file.filename}`)
+          },
+          
         }),
         limits: {fileSize: 300000}
       }))
@@ -46,7 +56,7 @@ export class PropuestaController {
       });
     }
 
-    @Delete(':id')
+    @Delete('/:id')
     delete( @Param('id') id, @Res() response ) {
         this.propuestaService.borrarPropuesta( id ).then( () => {
             response.status(HttpStatus.OK).json( {Mensaje:`User ${id} eliminated.`} );
@@ -81,6 +91,24 @@ export class PropuestaController {
     verPropuesta( @Param('id') id, @Res() response ) {
         this.propuestaService.verPropuesta( id ).then( verm => {
             response.status(HttpStatus.OK).json( verm );
+        }).catch( err =>{
+             response.status(HttpStatus.CONFLICT).json(err);
+        } );
+    }
+
+    @Get('/ver/:folio')
+    verEvidencia( @Param('folio') folio, @Res() response ) {
+        this.propuestaService.verEvidencia( folio ).then( evi => {
+            response.status(HttpStatus.OK).json( evi );
+        }).catch( err =>{
+             response.status(HttpStatus.CONFLICT).json(err);
+        } );
+    }
+
+    @Get('/prueba/path')
+    verprueba( @Res() response ) {
+        this.propuestaService.prueba().then( prueba => {
+            response.status(HttpStatus.OK).json( prueba );
         }).catch( err =>{
              response.status(HttpStatus.CONFLICT).json(err);
         } );
