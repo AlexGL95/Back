@@ -34,7 +34,7 @@ export class ArchivosService {
         let doc = new PDFDocument;
         const lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
         doc.pipe(fs.createWriteStream(`./pdfs/propuestas/propuesta${folio}.pdf`));
-        doc.fillColor('red').font('Helvetica-Bold').text(`Folio: ${folio}`, {
+        doc.fillColor([253, 235, 208]).font('Helvetica-Bold').text(`Folio: ${folio}`, {
             lineBreak : true,
             lineGap: 25,
         }).fillColor('black').font('Helvetica-Bold').text('NOMBRE COMPLETO ', {
@@ -87,7 +87,7 @@ export class ArchivosService {
             doc.font('Helvetica')
             .fillColor('red')
             .text('Evidencia', {
-            link: 'http://apple.com/',
+            link: `http://localhost:4200/Propuesta/ver/${folio}`,
             underline: true
         });
         }
@@ -227,7 +227,7 @@ export class ArchivosService {
         }
 
         doc.pipe(fs.createWriteStream(`./pdfs/reportes/reporte${folio}.pdf`));
-        doc.fillColor('red').font('Helvetica-Bold').text(`Folio: ${folio}`, {
+        doc.fillColor([ 253, 235, 208]).font('Helvetica-Bold').text(`Folio: ${folio}`, {
             lineBreak : true,
             lineGap: 25,
         }).fillColor('black').font('Helvetica-Bold').text('NOMBRE COMPLETO ', {

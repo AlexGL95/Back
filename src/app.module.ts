@@ -12,7 +12,7 @@ import { UsuarioModule } from './Usuario/usuario.module';
 import { ReporteCiudadanoModule } from './Reporte_ciudadano/reporte-ciudadano.module';
 import { ArchivosModule } from './archivos/archivos.module';
 import { ArchivosService } from './archivos/archivos.service';
-import { CronjobModule } from './cronjob/cronjob.module';
+import { CronjobModule } from './Cronjob/cronjob.module';
 import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
@@ -22,7 +22,7 @@ import { ScheduleModule } from '@nestjs/schedule';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: '',
+      password: 'Konjikinogashbell25()',
       database: 'escuchav1',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
