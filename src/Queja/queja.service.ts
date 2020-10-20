@@ -114,7 +114,8 @@ export class QuejaService {
     }
 
     pathFile(files: File){
-        this.path = files[0].path;
+        this.path = `${files[0].destination}/${files[0].filename}`
+        console.log(this.path);
     }
     async obtenerQuejaGraph( categoria: number, area: number, fecha1: string, fecha2: string): Promise<any[]> {
         let fechaIni: Moment = moment(fecha1, "MMM Do YY");
@@ -170,6 +171,14 @@ export class QuejaService {
           }
         }
         
+        
+    }
+
+    async verEvidencia(folio: string){
+        console.log('paso');
+        let ver = await this.quejaRepository.findOne({ where: { folio: `${folio}` }});
+        console.log(ver);
+        return ver.evidencia;
         
     }
 

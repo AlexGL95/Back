@@ -28,6 +28,14 @@ export class QuejaController {
     @UseInterceptors(AnyFilesInterceptor({
         storage: diskStorage({
           destination: './files/quejas',
+          filename: function (req, file, cb) {
+            console.log(file);
+            cb(null, file.originalname)
+          },
+          path: function (req, file, cb) {
+            console.log(file);
+            cb(null, `./files/propuestas/${file.filename}`)
+          },
         }),
         limits: {fileSize: 300000}
       }))
