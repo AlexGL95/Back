@@ -179,7 +179,7 @@ export class ArchivosService {
             doc.font('Helvetica')
             .fillColor('red')
             .text('Evidencia', {
-            link: `http://localhost:4200/Propuesta/ver/${folio}`,
+            link: `http://localhost:4200/Queja/ver/${folio}`,
             underline: true
         });
         }
@@ -271,7 +271,7 @@ export class ArchivosService {
             doc.font('Helvetica')
             .fillColor('red')
             .text('Evidencia', {
-            link: `http://localhost:4200/Propuesta/ver/${folio}`,
+            link: `http://localhost:4200/Reporte/ver/${folio}`,
             underline: true
         });
         }

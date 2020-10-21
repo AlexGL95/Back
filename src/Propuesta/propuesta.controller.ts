@@ -96,10 +96,10 @@ export class PropuestaController {
         } );
     }
 
-    @Get('/ver/:folio')
+    @Get('/verP/:folio')
     verEvidencia( @Param('folio') folio, @Res() response ) {
         this.propuestaService.verEvidencia( folio ).then( evi => {
-            response.status(HttpStatus.OK).json( evi );
+          return fs.createReadStream( evi ).pipe(response);
         }).catch( err =>{
              response.status(HttpStatus.CONFLICT).json(err);
         } );

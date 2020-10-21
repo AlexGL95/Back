@@ -203,7 +203,7 @@ export class PropuestaService {
     async verEvidencia(folio: string){
         console.log('paso');
         let ver = await this.propuestaRepository.findOne({ where: { folio: `${folio}` }});
-        console.log(ver);
+        console.log(ver.anexos);
         return ver.anexos;
         
     }
