@@ -8,7 +8,7 @@ export class CronjobService {
 
     ){}
 
-    @Cron(CronExpression.EVERY_HOUR)
+    @Cron(CronExpression.EVERY_DAY_AT_9AM)
     Run10pm(){
         try{
             fs.rmdirSync('./pdfs/propuestas', {recursive: true});

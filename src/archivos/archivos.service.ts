@@ -84,12 +84,7 @@ export class ArchivosService {
                 lineBreak : true,
                 lineGap: 10,
             });
-            doc.font('Helvetica')
-            .fillColor('red')
-            .text('Evidencia', {
-            link: `http://localhost:4200/Propuesta/ver/${folio}`,
-            underline: true
-        });
+            doc.image('./icons/índice2.jpeg', {width: 90, height: 20, link: `http://localhost:4200/Propuesta/ver/${folio}`});
         }
         doc.fillColor('black').font('Helvetica-Bold').text('CORREO ELECTRÓNICO', 350, 173, {
             lineBreak : true,
@@ -176,12 +171,8 @@ export class ArchivosService {
                 lineBreak : true,
                 lineGap: 10,
             });
-            doc.font('Helvetica')
-            .fillColor('red')
-            .text('Evidencia', {
-            link: `http://localhost:4200/Queja/ver/${folio}`,
-            underline: true
-        });
+            doc.image('./icons/índice2.jpeg', {width: 90, height: 20, link: `http://localhost:4200/Queja/ver/${folio}`});
+            
         }
         doc.fillColor('black').font('Helvetica-Bold').text('CORREO ELECTRÓNICO', 350, 173, {
             lineBreak : true,
@@ -268,12 +259,7 @@ export class ArchivosService {
                 lineBreak : true,
                 lineGap: 10,
             });
-            doc.font('Helvetica')
-            .fillColor('red')
-            .text('Evidencia', {
-            link: `http://localhost:4200/Reporte/ver/${folio}`,
-            underline: true
-        });
+            doc.image('./icons/índice2.jpeg', {width: 90, height: 20, link: `http://localhost:4200/Reporte/ver/${folio}`});
         }
         doc.fillColor('black').font('Helvetica-Bold').text('CORREO ELECTRÓNICO', 350, 173, {
             lineBreak : true,
@@ -299,16 +285,17 @@ export class ArchivosService {
             // ----- Para desarrollo ----- //
             host: 'smtp.ethereal.email',
             port: 587,
+            /*
             auth: {
                 user: 'allison.mann95@ethereal.email',
                 pass: 'xDKKnwcsKbdmuZPGmp'
-            }
+            }*/
             // ----- Para pruebas de produccion ----- //
-            /*service: 'Gmail',
+            service: 'Gmail',
             auth: {
                 user: 'innmortalmailservice@gmail.com',
                 pass: 'Innmortal1234'
-            }*/
+            }
             // ----- Para produccion ----- //
             /*service: 'Gmail',
             auth: {
