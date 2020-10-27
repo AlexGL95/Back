@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 const CORS_OPTIONS = {
-  "origin": " http://biitacoraspts.biitacoraback.oruzapp.com/",
+  "origin": " http://biitacoraspts.biitacoraback.oruzapp.com",
   "methods": "GET,HEAD,PUT,POST,DELETE",
   "allowedHeaders": 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
   "preflightContinue": false,
