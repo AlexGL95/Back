@@ -19,11 +19,11 @@ import { ScheduleModule } from '@nestjs/schedule';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: 'oruzservice.com',
       port: 3306,
-      username: 'root',
-      password: 'Konjikinogashbell25()',
-      database: 'escuchav1',
+      username: 'oruzserv_piina',
+      password: 'kJ&}&;t9%KMF',
+      database: 'oruzserv_piina',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
       autoLoadEntities: true,
