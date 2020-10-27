@@ -74,4 +74,13 @@ export class ReporteCiudadanoController {
         } );
     }
 
+    @Get('/verRC/:folio')
+    verEvidencia( @Param('folio') folio, @Res() response ) {
+        this.reporteCiudadanoService.verEvidencia( folio ).then( evi => {
+          return fs.createReadStream( evi ).pipe(response);
+        }).catch( err =>{
+             response.status(HttpStatus.CONFLICT).json(err);
+        } );
+    }
+
 }
