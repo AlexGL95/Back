@@ -291,17 +291,23 @@ export class ArchivosService {
                 pass: 'xDKKnwcsKbdmuZPGmp'
             }*/
             // ----- Para pruebas de produccion ----- //
+            /*
             service: 'Gmail',
             auth: {
                 user: 'innmortalmailservice@gmail.com',
                 pass: 'Innmortal1234'
-            }
+            }*/
             // ----- Para produccion ----- //
             /*service: 'Gmail',
             auth: {
                 user: 'ejenplo@gmail.com',
                 pass: 'password'
             }*/
+            service: 'Gmail',
+            auth: {
+                user: 'contacto@agriicola-angular.oruzapp.com',
+                pass: 'Contacto2020'
+            }
         });
 
         // Creacion del mensaje
