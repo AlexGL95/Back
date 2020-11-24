@@ -84,7 +84,7 @@ export class ArchivosService {
                 lineBreak : true,
                 lineGap: 10,
             });
-            doc.image('./icons/índice2.jpeg', {width: 90, height: 20, link: `http://biitacoraspts.biitacoraback.oruzapp.com/${folio}`});
+            doc.image('./icons/índice2.jpeg', {width: 90, height: 20, link: `http://piina.oruzservice.com/${folio}`});
         }
         doc.fillColor('black').font('Helvetica-Bold').text('CORREO ELECTRÓNICO', 350, 173, {
             lineBreak : true,
@@ -171,7 +171,7 @@ export class ArchivosService {
                 lineBreak : true,
                 lineGap: 10,
             });
-            doc.image('./icons/índice2.jpeg', {width: 90, height: 20, link: `http://biitacoraspts.biitacoraback.oruzapp.com/${folio}`});
+            doc.image('./icons/índice2.jpeg', {width: 90, height: 20, link: `http://piina.oruzservice.com/${folio}`});
             
         }
         doc.fillColor('black').font('Helvetica-Bold').text('CORREO ELECTRÓNICO', 350, 173, {
@@ -259,7 +259,7 @@ export class ArchivosService {
                 lineBreak : true,
                 lineGap: 10,
             });
-            doc.image('./icons/índice2.jpeg', {width: 90, height: 20, link: `http://biitacoraspts.biitacoraback.oruzapp.com/${folio}`});
+            doc.image('./icons/índice2.jpeg', {width: 90, height: 20, link: `http://piina.oruzservice.com/${folio}`});
         }
         doc.fillColor('black').font('Helvetica-Bold').text('CORREO ELECTRÓNICO', 350, 173, {
             lineBreak : true,
