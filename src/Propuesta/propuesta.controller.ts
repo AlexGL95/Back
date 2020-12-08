@@ -27,14 +27,14 @@ export class PropuestaController {
     @UseInterceptors(AnyFilesInterceptor({
       
         storage: diskStorage({
-          destination: './files/propuestas',
+          destination: '../files/propuestas',
           filename: function (req, file, cb) {
             console.log(file);
             cb(null, file.originalname)
           },
           path: function (req, file, cb) {
             console.log(file);
-            cb(null, `./files/propuestas/${file.filename}`)
+            cb(null, `../files/propuestas/${file.filename}`)
           },
           
         }),

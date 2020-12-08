@@ -11,32 +11,32 @@ export class CronjobService {
     @Cron(CronExpression.EVERY_DAY_AT_9AM)
     Run10pm(){
         try{
-            fs.rmdirSync('./pdfs/propuestas', {recursive: true});
+            fs.rmdirSync('../pdfs/propuestas', {recursive: true});
         }catch(err){
             console.error(err);
         }
         try {
-            fs.mkdirSync('./pdfs/propuestas');
+            fs.mkdirSync('../pdfs/propuestas');
         } catch (error) {
             console.log(error);
         }
         try{
-            fs.rmdirSync('./pdfs/quejas', {recursive: true});   
+            fs.rmdirSync('../pdfs/quejas', {recursive: true});   
         }catch(err){
             console.error(err);
         }
         try {
-            fs.mkdirSync('./pdfs/quejas');
+            fs.mkdirSync('../pdfs/quejas');
         } catch (error) {
             console.log(error);
         }
         try{
-            fs.rmdirSync('./pdfs/reportes', {recursive: true});   
+            fs.rmdirSync('../pdfs/reportes', {recursive: true});   
         }catch(err){
             console.error(err);
         }
         try {
-            fs.mkdirSync('./pdfs/reportes');
+            fs.mkdirSync('../pdfs/reportes');
         } catch (error) {
             console.log(error);
         }

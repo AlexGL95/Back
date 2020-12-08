@@ -59,7 +59,7 @@ export class QuejaService {
         await this.quejaRepository.update(nuevaQ.id, nuevaQ);
 
         this.archivosService.generarPDFQ(queja.nombre, queja.telefono, queja.correo, queja.codigoPostal, queja.colonia, queja.queja, queja.categoria.tipo, queja.area.area, queja.evidencia, folio);
-        let pdfPath = `./pdfs/quejas/queja${folio}.pdf`
+        let pdfPath = `../pdfs/quejas/queja${folio}.pdf`
         this.path = '';
 
         // Correo
@@ -158,15 +158,15 @@ export class QuejaService {
         let ver = await this.quejaRepository.findOne(id, {relations:['categoria', 'area']});
         let verPath = '';
         try {
-            fs.statSync(`./pdfs/quejas/queja${ver.folio}.pdf`);
-            verPath = `./pdfs/quejas/queja${ver.folio}.pdf`
+            fs.statSync(`../pdfs/quejas/queja${ver.folio}.pdf`);
+            verPath = `../pdfs/quejas/queja${ver.folio}.pdf`
             return verPath;
         }
         catch (err) {
           if (err.code === 'ENOENT') {
             this.archivosService.generarPDFQ(ver.nombre, ver.telefono, ver.correo, ver.codigoPostal, ver.colonia, ver.queja, ver.categoria.tipo, ver.area.area, ver.evidencia, ver.folio);
             
-            verPath = `./pdfs/quejas/queja${ver.folio}.pdf`
+            verPath = `../pdfs/quejas/queja${ver.folio}.pdf`
             return verPath;
           }
         }

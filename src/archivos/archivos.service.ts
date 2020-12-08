@@ -33,7 +33,7 @@ export class ArchivosService {
         const aparece = false;
         let doc = new PDFDocument;
         const lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        doc.pipe(fs.createWriteStream(`./pdfs/propuestas/propuesta${folio}.pdf`));
+        doc.pipe(fs.createWriteStream(`../pdfs/propuestas/propuesta${folio}.pdf`));
         doc.fillColor([63, 17, 33]).font('Helvetica-Bold').text(`Folio: ${folio}`, {
             lineBreak : true,
             lineGap: 25,
@@ -84,7 +84,7 @@ export class ArchivosService {
                 lineBreak : true,
                 lineGap: 10,
             });
-            doc.image('./icons/índice2.jpeg', {width: 90, height: 20, link: `http://piina.oruzservice.com/${folio}`});
+            doc.image('../icons/índice2.jpeg', {width: 90, height: 20, link: `http://piina.oruzservice.com/${folio}`});
         }
         doc.fillColor('black').font('Helvetica-Bold').text('CORREO ELECTRÓNICO', 350, 173, {
             lineBreak : true,
@@ -129,7 +129,7 @@ export class ArchivosService {
             correoI = correo;
         }
 
-        doc.pipe(fs.createWriteStream(`./pdfs/quejas/queja${folio}.pdf`));
+        doc.pipe(fs.createWriteStream(`../pdfs/quejas/queja${folio}.pdf`));
         doc.fillColor([63, 17, 33]).font('Helvetica-Bold').text(`Folio: ${folio}`, {
             lineBreak : true,
             lineGap: 25,
@@ -171,7 +171,7 @@ export class ArchivosService {
                 lineBreak : true,
                 lineGap: 10,
             });
-            doc.image('./icons/índice2.jpeg', {width: 90, height: 20, link: `http://piina.oruzservice.com/${folio}`});
+            doc.image('../icons/índice2.jpeg', {width: 90, height: 20, link: `http://piina.oruzservice.com/${folio}`});
             
         }
         doc.fillColor('black').font('Helvetica-Bold').text('CORREO ELECTRÓNICO', 350, 173, {
@@ -217,7 +217,7 @@ export class ArchivosService {
             correoI = correo;
         }
 
-        doc.pipe(fs.createWriteStream(`./pdfs/reportes/reporte${folio}.pdf`));
+        doc.pipe(fs.createWriteStream(`../pdfs/reportes/reporte${folio}.pdf`));
         doc.fillColor([ 63, 17, 33]).font('Helvetica-Bold').text(`Folio: ${folio}`, {
             lineBreak : true,
             lineGap: 25,
@@ -259,7 +259,7 @@ export class ArchivosService {
                 lineBreak : true,
                 lineGap: 10,
             });
-            doc.image('./icons/índice2.jpeg', {width: 90, height: 20, link: `http://piina.oruzservice.com/${folio}`});
+            doc.image('../icons/índice2.jpeg', {width: 90, height: 20, link: `http://piina.oruzservice.com/${folio}`});
         }
         doc.fillColor('black').font('Helvetica-Bold').text('CORREO ELECTRÓNICO', 350, 173, {
             lineBreak : true,
@@ -291,23 +291,23 @@ export class ArchivosService {
                 pass: 'xDKKnwcsKbdmuZPGmp'
             }*/
             // ----- Para pruebas de produccion ----- //
-            /*
+            
             service: 'Gmail',
             auth: {
                 user: 'innmortalmailservice@gmail.com',
                 pass: 'Innmortal1234'
-            }*/
+            }
             // ----- Para produccion ----- //
             /*service: 'Gmail',
             auth: {
                 user: 'ejenplo@gmail.com',
                 pass: 'password'
             }*/
-            service: 'Gmail',
+            /*service: 'Gmail',
             auth: {
                 user: 'contacto@agriicola-angular.oruzapp.com',
                 pass: 'Contacto2020'
-            }
+            }*/
         });
 
         // Creacion del mensaje
