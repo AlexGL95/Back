@@ -11,6 +11,6 @@ const CORS_OPTIONS = {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: CORS_OPTIONS });
-  await app.listen(3003);
+  await app.listen(3001);
 }
 bootstrap();
