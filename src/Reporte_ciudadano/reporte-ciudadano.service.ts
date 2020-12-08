@@ -174,7 +174,6 @@ export class ReporteCiudadanoService {
         let ver = await this.rcRepository.findOne({ where: { folio: `${folio}` }});
         console.log(ver);
         return ver.anexos;
-        
     }
 
 }
