@@ -167,7 +167,6 @@ export class ReporteCiudadanoService {
             return verPath;
           }
         }
-
     }
 
     async verEvidencia(folio: string){
